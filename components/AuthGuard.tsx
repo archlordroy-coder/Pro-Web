@@ -11,6 +11,7 @@ export default function AuthGuard({ children }: { children: React.ReactNode }) {
   const [password, setPassword] = useState('');
 
   if (loading) return <div className="p-8">Chargement...</div>;
+  if (!auth) return <div className="p-8">Erreur d'initialisation Auth</div>;
 
   if (!user) {
     return (

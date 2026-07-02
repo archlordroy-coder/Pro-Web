@@ -1,4 +1,4 @@
-import { initializeApp } from 'firebase/app';
+import { initializeApp, getApps, getApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
 
 const firebaseConfig = {
@@ -10,5 +10,9 @@ const firebaseConfig = {
   appId: "1:591192837161:web:aa8ff3d3f1bfd976b5a038"
 };
 
-const app = initializeApp(firebaseConfig);
-export const auth = getAuth(app);
+// Initialiser seulement si côté client et si la clé est présente
+const app = !getApps().length && process.env.NEXT_PUBLIC_FIREBASE_API_KEY 
+  ? initializeApp(firebaseConfig) 
+  : getApps().length > 0 ? getApp() : null;
+
+export const auth = app ? getAuth(app) : null;
