@@ -14,7 +14,7 @@ export default function ProductsPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
+    const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://api.proinformatique.dev';
     
     fetch(`${API_URL}/api/products`)
       .then((res) => res.json())
@@ -28,29 +28,31 @@ export default function ProductsPage() {
       });
   }, []);
 
-  if (loading) return <div className="p-8">Chargement...</div>;
+  if (loading) return <div className="p-8 text-text-secondary">Chargement des produits...</div>;
 
   return (
-    <div className="p-8">
-      <h1 className="text-2xl font-bold mb-4">Gestion des Produits</h1>
-      <table className="min-w-full border">
-        <thead>
-          <tr className="bg-gray-100">
-            <th className="border p-2">Nom</th>
-            <th className="border p-2">Catégorie</th>
-            <th className="border p-2">Prix</th>
-          </tr>
-        </thead>
-        <tbody>
-          {products.map((product) => (
-            <tr key={product.id}>
-              <td className="border p-2">{product.name}</td>
-              <td className="border p-2">{product.category}</td>
-              <td className="border p-2">{product.price_value}</td>
+    <div className="p-8 bg-background min-h-screen">
+      <h1 className="text-3xl font-bold mb-8 text-text-primary">Gestion des Produits</h1>
+      <div className="bg-surface border border-border rounded-3xl shadow-sm overflow-hidden">
+        <table className="min-w-full">
+          <thead className="bg-surfaceMuted">
+            <tr className="text-left">
+              <th className="p-4 text-text-primary font-semibold">Nom</th>
+              <th className="p-4 text-text-primary font-semibold">Catégorie</th>
+              <th className="p-4 text-text-primary font-semibold">Prix</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {products.map((product) => (
+              <tr key={product.id} className="border-t border-border">
+                <td className="p-4 text-text-secondary">{product.name}</td>
+                <td className="p-4 text-text-secondary">{product.category}</td>
+                <td className="p-4 text-text-secondary">{product.price_value}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }
