@@ -23,11 +23,13 @@ export interface Product {
 export interface Review {
   id: string;
   productId: string;
-  userId: string;
-  userName: string;
+  userId?: string;
+  author: string;
   rating: number;
   comment: string;
-  timestamp: Date;
+  createdAt: Date | string;
+  userName?: string;
+  timestamp?: Date;
 }
 
 export interface CyberTicket {

@@ -4,6 +4,9 @@ import { useState, useEffect } from 'react';
 import { getServices } from '@/lib/api';
 import type { Service } from '@/lib/api';
 import Link from 'next/link';
+import { PublicHeader } from '@/components/PublicHeader';
+import { PublicFooter } from '@/components/PublicFooter';
+import { CardSkeleton } from '@/components/index';
 
 export default function ServicesPage() {
   const [services, setServices] = useState<Service[]>([]);
@@ -21,10 +24,9 @@ export default function ServicesPage() {
       });
   }, []);
 
-  if (loading) return <div className="p-8 text-text-secondary">Chargement des services...</div>;
-
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background flex flex-col">
+      <PublicHeader />
       {/* Hero Section */}
       <div className="bg-gradient-to-r from-primary to-primary/80 text-white py-16 px-8">
         <div className="max-w-6xl mx-auto">
@@ -33,8 +35,18 @@ export default function ServicesPage() {
         </div>
       </div>
 
+      <main className="flex-1">
       {/* Services Grid */}
-      <div className="max-w-6xl mx-auto py-16 px-8">
+      {loading ? (
+        <div className="max-w-6xl mx-auto py-16 px-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {[1, 2, 3].map(i => (
+              <CardSkeleton key={i} />
+            ))}
+          </div>
+        </div>
+      ) : (
+        <div className="max-w-6xl mx-auto py-16 px-8">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {services.map((service) => (
             <div key={service.id} className="p-6 bg-surface border border-border rounded-3xl shadow-sm hover:shadow-md transition">
@@ -58,7 +70,8 @@ export default function ServicesPage() {
             Aucun service disponible pour le moment
           </div>
         )}
-      </div>
+        </div>
+      )}
 
       {/* CTA Section */}
       <div className="bg-surface py-16 px-8">
@@ -70,6 +83,9 @@ export default function ServicesPage() {
           </Link>
         </div>
       </div>
+      </main>
+
+      <PublicFooter />
     </div>
   );
 }

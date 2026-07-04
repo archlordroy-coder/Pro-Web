@@ -6,54 +6,57 @@ import { AdminForm, type FormField } from '@/components/AdminForm';
 import { AdminTable, type TableColumn } from '@/components/AdminTable';
 import { useNotification } from '@/components/NotificationContext';
 import { useState, useEffect } from 'react';
-import { getServices, createService, updateService, deleteService, type Service } from '@/lib/api';
+import { getPromotions, createPromotion, updatePromotion, deletePromotion, Promotion } from '@/lib/api';
 
-const serviceFormFields: FormField[] = [
-  { name: 'title', label: 'Titre du service', type: 'text', required: true, placeholder: 'Entrer le titre' },
-  { name: 'description', label: 'Description', type: 'textarea', required: true, placeholder: 'Décrire le service' },
-  { name: 'category', label: 'Catégorie', type: 'text', placeholder: 'Ex: Support Informatique' },
-  { name: 'priceDisplay', label: 'Prix affiché', type: 'text', required: true, placeholder: 'Ex: À partir de 10 000 FCFA' },
+const promotionFormFields: FormField[] = [
+  { name: 'title', label: 'Titre', type: 'text', required: true, placeholder: 'Titre de la promotion' },
+  { name: 'description', label: 'Description', type: 'textarea', required: true, placeholder: 'Détails de la promotion' },
+  { name: 'imageUrl', label: 'URL de l\'image', type: 'text', placeholder: 'https://...' },
 ];
 
-const serviceColumns: TableColumn[] = [
+const promotionColumns: TableColumn[] = [
   { key: 'title', label: 'Titre' },
-  { key: 'category', label: 'Catégorie' },
-  { key: 'priceDisplay', label: 'Prix' },
   {
     key: 'description',
     label: 'Description',
     render: (value: string) => (
-      <span className="truncate max-w-xs" title={value}>
-        {value?.substring(0, 50)}...
-      </span>
+      <span className="truncate max-w-xs">{value?.substring(0, 50)}...</span>
+    ),
+  },
+  {
+    key: 'imageUrl',
+    label: 'Image',
+    render: (value: string) => (
+      <div className="w-10 h-10 bg-surface-muted rounded border border-border flex items-center justify-center">
+        {value ? '✓' : '-'}
+      </div>
     ),
   },
 ];
 
-export default function AdminServicesPage() {
+export default function PromotionsPage() {
   const { addNotification } = useNotification();
-  const [services, setServices] = useState<Service[]>([]);
+  const [promotions, setPromotions] = useState<Promotion[]>([]);
   const [loading, setLoading] = useState(true);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [formData, setFormData] = useState<Partial<Service>>({
+  const [formData, setFormData] = useState<Partial<Promotion>>({
     title: '',
     description: '',
-    category: '',
-    priceDisplay: '',
+    imageUrl: '',
   });
 
   useEffect(() => {
-    loadServices();
+    loadPromotions();
   }, []);
 
-  const loadServices = async () => {
+  const loadPromotions = async () => {
     try {
-      const data = await getServices();
-      setServices(data);
+      const data = await getPromotions();
+      setPromotions(data);
     } catch (err) {
-      console.error('Error fetching services:', err);
-      addNotification('error', 'Erreur lors du chargement des services');
+      console.error('Error:', err);
+      addNotification('error', 'Erreur lors du chargement');
     } finally {
       setLoading(false);
     }
@@ -67,26 +70,25 @@ export default function AdminServicesPage() {
     setIsSubmitting(true);
     try {
       if (editingId) {
-        await updateService(editingId, formData as Service);
-        addNotification('success', 'Service mis à jour avec succès');
+        await updatePromotion(editingId, formData as Promotion);
+        addNotification('success', 'Promotion mise à jour');
       } else {
-        const newService: Service = {
+        const newPromotion: Promotion = {
           ...formData,
           id: Date.now().toString(),
-        } as Service;
-        await createService(newService);
-        addNotification('success', 'Service créé avec succès');
+        } as Promotion;
+        await createPromotion(newPromotion);
+        addNotification('success', 'Promotion créée');
       }
       setEditingId(null);
       setFormData({
         title: '',
         description: '',
-        category: '',
-        priceDisplay: '',
+        imageUrl: '',
       });
-      await loadServices();
+      await loadPromotions();
     } catch (err) {
-      console.error('Error saving service:', err);
+      console.error('Error:', err);
       addNotification('error', 'Erreur lors de la sauvegarde');
     } finally {
       setIsSubmitting(false);
@@ -95,18 +97,18 @@ export default function AdminServicesPage() {
 
   const handleDelete = async (id: string) => {
     try {
-      await deleteService(id);
-      addNotification('success', 'Service supprimé avec succès');
-      await loadServices();
+      await deletePromotion(id);
+      addNotification('success', 'Promotion supprimée');
+      await loadPromotions();
     } catch (err) {
-      console.error('Error deleting service:', err);
+      console.error('Error:', err);
       addNotification('error', 'Erreur lors de la suppression');
     }
   };
 
-  const handleEdit = (service: Service) => {
-    setEditingId(service.id);
-    setFormData(service);
+  const handleEdit = (promotion: Promotion) => {
+    setEditingId(promotion.id);
+    setFormData(promotion);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -115,8 +117,7 @@ export default function AdminServicesPage() {
     setFormData({
       title: '',
       description: '',
-      category: '',
-      priceDisplay: '',
+      imageUrl: '',
     });
   };
 
@@ -124,17 +125,16 @@ export default function AdminServicesPage() {
     <AuthGuard>
       <div className="p-8 bg-background min-h-screen">
         <AdminHeader
-          title="Gestion des Services"
-          description="Créer, modifier et supprimer les services informatiques"
+          title="Gestion des Promotions"
+          description="Créez et gérez les promotions et offres spéciales"
           action={{
-            label: '+ Nouveau service',
+            label: '+ Nouvelle promotion',
             onClick: () => {
               setEditingId(null);
               setFormData({
                 title: '',
                 description: '',
-                category: '',
-                priceDisplay: '',
+                imageUrl: '',
               });
               window.scrollTo({ top: 0, behavior: 'smooth' });
             },
@@ -143,8 +143,8 @@ export default function AdminServicesPage() {
 
         {editingId || Object.values(formData).some(v => v) ? (
           <AdminForm
-            title={editingId ? 'Modifier le service' : 'Nouveau service'}
-            fields={serviceFormFields}
+            title={editingId ? 'Modifier la promotion' : 'Nouvelle promotion'}
+            fields={promotionFormFields}
             data={formData}
             onDataChange={handleDataChange}
             onSubmit={handleSave}
@@ -155,12 +155,12 @@ export default function AdminServicesPage() {
         ) : null}
 
         <AdminTable
-          columns={serviceColumns}
-          data={services}
+          columns={promotionColumns}
+          data={promotions}
           onEdit={handleEdit}
           onDelete={handleDelete}
           loading={loading}
-          emptyMessage="Aucun service. Créez le premier maintenant!"
+          emptyMessage="Aucune promotion. Créez la première!"
         />
       </div>
     </AuthGuard>

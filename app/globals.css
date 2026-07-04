@@ -9,6 +9,7 @@
   --color-text-secondary: #667085;
   --color-surface: #FFFFFF;
   --color-border: #E1E8F5;
+  --color-surface-muted: #F9FAFB;
   --font-sans: "Poppins", sans-serif;
 }
 
@@ -16,4 +17,84 @@ body {
   background: var(--color-background);
   color: var(--color-text-primary);
   font-family: var(--font-sans);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Animations */
+@keyframes slide-in {
+  from {
+    opacity: 0;
+    transform: translateX(1rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.animate-slide-in {
+  animation: slide-in 0.3s ease-out;
+}
+
+.animate-fade-in {
+  animation: fade-in 0.3s ease-out;
+}
+
+/* Utilities */
+.text-balance {
+  text-wrap: balance;
+}
+
+.text-pretty {
+  text-wrap: pretty;
+}
+
+/* Focus states for accessibility */
+@layer components {
+  input:focus,
+  textarea:focus,
+  select:focus,
+  button:focus {
+    @apply outline-none;
+    box-shadow: 0 0 0 3px rgba(43, 46, 131, 0.1), 0 0 0 2px #2B2E83;
+  }
+}
+
+/* Smooth transitions */
+button,
+input,
+textarea,
+select {
+  @apply transition-colors duration-200;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-background);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-text-secondary);
 }
