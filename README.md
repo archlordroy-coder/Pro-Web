@@ -171,6 +171,164 @@ Le projet est configuré pour Vercel. Pour déployer :
 vercel --prod
 ```
 
+### URL de Production
+
+Le web panel est accessible à l'adresse suivante :
+```
+https://proinformatique.dev
+```
+
+### Configuration des Variables d'Environnement sur Vercel
+
+Le web panel n'a pas besoin de variables d'environnement spécifiques car l'URL de l'API est configurée directement dans le code.
+
+## Utilisation de l'API
+
+### Configuration
+
+Le web panel utilise l'API backend via le fichier `lib/api.ts` :
+
+```typescript
+const API_BASE_URL = 'https://api.proinformatique.dev';
+```
+
+### Architecture des Appels API
+
+Le web panel suit une architecture simple pour les appels API :
+
+1. **API Functions** (`lib/api.ts`) :
+   - Contient toutes les fonctions pour communiquer avec l'API
+   - Gère les requêtes HTTP avec fetch
+   - Exemple :
+   ```typescript
+   export async function getServices(): Promise<Service[]> {
+     const response = await fetch(`${API_BASE_URL}/services`);
+     if (!response.ok) throw new Error('API error');
+     return response.json();
+   }
+   ```
+
+2. **AuthContext** (`components/AuthContext.tsx`) :
+   - Gère l'état d'authentification
+   - Stocke l'utilisateur et le token
+   - Fournit les fonctions login, register, logout
+   - Exemple :
+   ```typescript
+   const login = async (email: string, password: string) => {
+     const response = await fetch(`${API_BASE_URL}/auth/login`, {
+       method: 'POST',
+       headers: { 'Content-Type': 'application/json' },
+       body: JSON.stringify({ email, password })
+     });
+     const data = await response.json();
+     setUser(data.user);
+     setToken(data.token);
+   };
+   ```
+
+3. **AuthGuard** (`components/AuthGuard.tsx`) :
+   - Protège les routes admin
+   - Affiche le formulaire de connexion si non authentifié
+   - Redirige vers le contenu si authentifié
+
+### Endpoints Utilisés
+
+Le web panel utilise les endpoints suivants de l'API :
+
+- **GET /services** : Récupérer la liste des services (public et admin)
+- **POST /services** : Créer un nouveau service (admin)
+- **PUT /services/:id** : Mettre à jour un service (admin)
+- **DELETE /services/:id** : Supprimer un service (admin)
+- **GET /products** : Récupérer la liste des produits (public et admin)
+- **POST /products** : Créer un nouveau produit (admin)
+- **PUT /products/:id** : Mettre à jour un produit (admin)
+- **DELETE /products/:id** : Supprimer un produit (admin)
+- **GET /promotions** : Récupérer les promotions (admin)
+- **POST /promotions** : Créer une promotion (admin)
+- **PUT /promotions/:id** : Mettre à jour une promotion (admin)
+- **DELETE /promotions/:id** : Supprimer une promotion (admin)
+- **POST /auth/register** : Créer un compte admin
+- **POST /auth/login** : Connexion admin
+- **GET /users** : Récupérer tous les utilisateurs (admin)
+- **DELETE /users/:id** : Supprimer un utilisateur (admin)
+- **PUT /users/:id/role** : Modifier le rôle d'un utilisateur (admin)
+
+### Intégration avec le Backend
+
+Pour intégrer le web panel avec le backend :
+
+1. **Configurer l'URL de l'API** dans `lib/api.ts` :
+   ```typescript
+   const API_BASE_URL = 'https://api.proinformatique.dev';
+   ```
+
+2. **Créer les types TypeScript** dans `lib/api.ts` :
+   ```typescript
+   export interface Service {
+     id: string;
+     title: string;
+     description: string;
+     iconCode?: number;
+     features?: string[];
+     category?: string;
+     priceDisplay?: string;
+   }
+   ```
+
+3. **Implémenter les fonctions API** dans `lib/api.ts` :
+   ```typescript
+   export async function getServices(): Promise<Service[]> {
+     const response = await fetch(`${API_BASE_URL}/services`);
+     if (!response.ok) throw new Error('API error');
+     return response.json();
+   }
+   ```
+
+4. **Utiliser dans les composants** :
+   ```typescript
+   import { getServices } from '@/lib/api';
+
+   export default function ServicesPage() {
+     const [services, setServices] = useState<Service[]>([]);
+     
+     useEffect(() => {
+       getServices().then(setServices);
+     }, []);
+
+     return (
+       <div>
+         {services.map(service => (
+           <div key={service.id}>{service.title}</div>
+         ))}
+       </div>
+     );
+   }
+   ```
+
+### Gestion des Erreurs
+
+Le web panel gère les erreurs de manière gracieuse :
+
+- Les erreurs API affichent un message d'erreur à l'utilisateur
+- Les formulaires admin affichent les erreurs de validation
+- Les erreurs d'authentification redirigent vers le formulaire de connexion
+
+### Mode Public vs Admin
+
+Le web panel sépare clairement les modes :
+
+- **Mode Public** : Accessible sans authentification
+  - Page d'accueil (`/`)
+  - Services (`/services`)
+  - Produits (`/products`)
+
+- **Mode Admin** : Protégé par AuthGuard
+  - Dashboard (`/admin`)
+  - Gestion services (`/admin/services`)
+  - Gestion produits (`/admin/products`)
+  - Gestion promotions (`/admin/promotions`)
+  - Gestion utilisateurs (`/admin/users`)
+
 ## API Functions
 
 Les fonctions API sont définies dans `lib/api.ts` :
