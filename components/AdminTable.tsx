@@ -11,10 +11,12 @@ export interface TableColumn {
 interface AdminTableProps {
   columns: TableColumn[];
   data: any[];
-  onEdit: (item: any) => void;
-  onDelete: (id: string) => void;
+  onEdit?: (item: any) => void;
+  onDelete?: (id: string) => void;
   loading?: boolean;
   emptyMessage?: string;
+  hideEditButton?: boolean;
+  hideDeleteButton?: boolean;
 }
 
 export function AdminTable({
@@ -24,13 +26,15 @@ export function AdminTable({
   onDelete,
   loading = false,
   emptyMessage = 'Aucune donnée disponible',
+  hideEditButton = false,
+  hideDeleteButton = false,
 }: AdminTableProps) {
   const [deletingId, setDeletingId] = useState<string | null>(null);
 
   const handleDelete = (id: string) => {
     if (confirm('Êtes-vous sûr de vouloir supprimer cet élément ?')) {
       setDeletingId(id);
-      onDelete(id);
+      if (onDelete) onDelete(id);
       setDeletingId(null);
     }
   };
@@ -86,19 +90,23 @@ export function AdminTable({
                   ))}
                   <td className="px-6 py-4 text-sm">
                     <div className="flex gap-2">
-                      <button
-                        onClick={() => onEdit(item)}
-                        className="px-3 py-2 bg-primary/10 text-primary rounded-lg text-xs font-medium hover:bg-primary/20 transition"
-                      >
-                        Modifier
-                      </button>
-                      <button
-                        onClick={() => handleDelete(item.id)}
-                        disabled={deletingId === item.id}
-                        className="px-3 py-2 bg-red-100 text-red-600 rounded-lg text-xs font-medium hover:bg-red-200 transition disabled:opacity-50"
-                      >
-                        {deletingId === item.id ? 'Suppression...' : 'Supprimer'}
-                      </button>
+                      {!hideEditButton && onEdit && (
+                        <button
+                          onClick={() => onEdit(item)}
+                          className="px-3 py-2 bg-primary/10 text-primary rounded-lg text-xs font-medium hover:bg-primary/20 transition"
+                        >
+                          Modifier
+                        </button>
+                      )}
+                      {!hideDeleteButton && onDelete && (
+                        <button
+                          onClick={() => handleDelete(item.id)}
+                          disabled={deletingId === item.id}
+                          className="px-3 py-2 bg-red-100 text-red-600 rounded-lg text-xs font-medium hover:bg-red-200 transition disabled:opacity-50"
+                        >
+                          {deletingId === item.id ? 'Suppression...' : 'Supprimer'}
+                        </button>
+                      )}
                     </div>
                   </td>
                 </tr>
