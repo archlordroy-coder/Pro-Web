@@ -1,23 +1,15 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-
-interface Product {
-  id: string;
-  name: string;
-  category: string;
-  price_value: number;
-}
+import { getProducts } from '@/lib/api';
+import type { Product } from '@/lib/api';
 
 export default function ProductsPage() {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://api.proinformatique.dev';
-    
-    fetch(`${API_URL}/api/products`)
-      .then((res) => res.json())
+    getProducts()
       .then((data) => {
         setProducts(data);
         setLoading(false);
@@ -38,6 +30,7 @@ export default function ProductsPage() {
           <thead className="bg-surfaceMuted">
             <tr className="text-left">
               <th className="p-4 text-text-primary font-semibold">Nom</th>
+              <th className="p-4 text-text-primary font-semibold">Description</th>
               <th className="p-4 text-text-primary font-semibold">Catégorie</th>
               <th className="p-4 text-text-primary font-semibold">Prix</th>
             </tr>
@@ -46,8 +39,9 @@ export default function ProductsPage() {
             {products.map((product) => (
               <tr key={product.id} className="border-t border-border">
                 <td className="p-4 text-text-secondary">{product.name}</td>
+                <td className="p-4 text-text-secondary">{product.description}</td>
                 <td className="p-4 text-text-secondary">{product.category}</td>
-                <td className="p-4 text-text-secondary">{product.price_value}</td>
+                <td className="p-4 text-text-secondary">{product.priceDisplay}</td>
               </tr>
             ))}
           </tbody>
