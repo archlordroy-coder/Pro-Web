@@ -3,6 +3,10 @@
 import { useEffect, useState } from 'react';
 import { getServices, getProducts, type Service, type Product } from '@/lib/api';
 import Link from 'next/link';
+import { PublicHeader } from '@/components/PublicHeader';
+import { PublicFooter } from '@/components/PublicFooter';
+import { HeroSection } from '@/components/HeroSection';
+import { LoadingState, CardSkeleton } from '@/components/index';
 
 export default function Home() {
   const [services, setServices] = useState<Service[]>([]);
@@ -21,81 +25,114 @@ export default function Home() {
       ]);
       setServices(servicesData);
       setProducts(productsData);
-      setLoading(false);
     } catch (err) {
       console.error('Error loading data:', err);
+    } finally {
       setLoading(false);
     }
   };
 
-  if (loading) return <div className="p-8 text-text-secondary">Chargement...</div>;
-
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background flex flex-col">
+      <PublicHeader />
+
       {/* Hero Section */}
-      <div className="bg-gradient-to-r from-primary to-primary/80 text-white py-20 px-8">
-        <div className="max-w-6xl mx-auto">
-          <h1 className="text-5xl font-bold mb-4">Pro Informatique</h1>
-          <p className="text-xl opacity-90">Vos services informatiques et produits technologiques</p>
-          <div className="mt-8 flex gap-4">
-            <Link href="/services" className="px-6 py-3 bg-white text-primary rounded-xl font-bold hover:opacity-90 transition">
-              Nos Services
-            </Link>
-            <Link href="/products" className="px-6 py-3 bg-white/20 text-white rounded-xl font-bold hover:bg-white/30 transition">
-              Nos Produits
-            </Link>
-          </div>
-        </div>
+      <div className="max-w-6xl w-full mx-auto px-6 pt-12">
+        <HeroSection
+          title="Pro Informatique"
+          subtitle="Vos services informatiques et produits technologiques de qualité"
+          primaryAction={{ label: 'Nos Services', href: '/services' }}
+          secondaryAction={{ label: 'Nos Produits', href: '/products' }}
+        />
       </div>
 
-      {/* Services Section */}
-      <div className="max-w-6xl mx-auto py-16 px-8">
-        <h2 className="text-3xl font-bold mb-8 text-text-primary">Nos Services</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {services.slice(0, 3).map((service) => (
-            <div key={service.id} className="p-6 bg-surface border border-border rounded-3xl shadow-sm hover:shadow-md transition">
-              <h3 className="text-xl font-bold mb-2 text-primary">{service.title}</h3>
-              <p className="text-text-secondary">{service.description}</p>
-            </div>
-          ))}
-        </div>
-        <div className="mt-8 text-center">
-          <Link href="/services" className="text-primary font-semibold hover:underline">
-            Voir tous les services →
-          </Link>
-        </div>
-      </div>
-
-      {/* Products Section */}
-      <div className="bg-surface py-16 px-8">
-        <div className="max-w-6xl mx-auto">
-          <h2 className="text-3xl font-bold mb-8 text-text-primary">Nos Produits</h2>
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-            {products.slice(0, 4).map((product) => (
-              <div key={product.id} className="bg-background border border-border rounded-3xl overflow-hidden hover:shadow-md transition">
-                <img src={product.imageUrl} alt={product.name} className="w-full h-48 object-cover" />
-                <div className="p-4">
-                  <h3 className="font-bold text-text-primary">{product.name}</h3>
-                  <p className="text-text-secondary text-sm mt-1">{product.category}</p>
-                  <p className="text-primary font-bold mt-2">{product.priceDisplay}</p>
-                </div>
+      {/* Main Content */}
+      <main className="flex-1 max-w-6xl w-full mx-auto px-6 py-16">
+        {loading ? (
+          <>
+            {/* Services skeleton */}
+            <div className="mb-16">
+              <h2 className="text-3xl font-bold mb-8 text-text-primary">Nos Services</h2>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                {[1, 2, 3].map(i => (
+                  <CardSkeleton key={i} />
+                ))}
               </div>
-            ))}
-          </div>
-          <div className="mt-8 text-center">
-            <Link href="/products" className="text-primary font-semibold hover:underline">
-              Voir tous les produits →
-            </Link>
-          </div>
-        </div>
-      </div>
+            </div>
 
-      {/* Admin Link */}
-      <div className="max-w-6xl mx-auto py-16 px-8 text-center">
-        <Link href="/admin" className="text-text-secondary hover:text-primary transition">
-          Accès Admin →
-        </Link>
-      </div>
+            {/* Products skeleton */}
+            <div>
+              <h2 className="text-3xl font-bold mb-8 text-text-primary">Nos Produits</h2>
+              <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+                {[1, 2, 3, 4].map(i => (
+                  <CardSkeleton key={i} />
+                ))}
+              </div>
+            </div>
+          </>
+        ) : (
+          <>
+            {/* Services Section */}
+            <section className="mb-16">
+              <h2 className="text-3xl font-bold mb-8 text-text-primary">Nos Services</h2>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                {services.slice(0, 3).map((service) => (
+                  <div
+                    key={service.id}
+                    className="p-6 bg-surface border border-border rounded-3xl shadow-sm hover:shadow-md transition animate-fade-in"
+                  >
+                    <h3 className="text-xl font-bold mb-2 text-primary">{service.title}</h3>
+                    <p className="text-text-secondary mb-4 line-clamp-2">{service.description}</p>
+                    <p className="text-sm text-text-secondary">{service.priceDisplay}</p>
+                  </div>
+                ))}
+              </div>
+              <div className="mt-8 text-center">
+                <Link
+                  href="/services"
+                  className="text-primary font-semibold hover:underline transition inline-block"
+                >
+                  Voir tous les services →
+                </Link>
+              </div>
+            </section>
+
+            {/* Products Section */}
+            <section className="bg-surface rounded-3xl p-8 -mx-6 px-6">
+              <h2 className="text-3xl font-bold mb-8 text-text-primary">Nos Produits</h2>
+              <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+                {products.slice(0, 4).map((product) => (
+                  <div
+                    key={product.id}
+                    className="bg-background border border-border rounded-3xl overflow-hidden hover:shadow-md transition animate-fade-in"
+                  >
+                    <img
+                      src={product.imageUrl}
+                      alt={product.name}
+                      className="w-full h-48 object-cover"
+                    />
+                    <div className="p-4">
+                      <h3 className="font-bold text-text-primary line-clamp-1">{product.name}</h3>
+                      <p className="text-text-secondary text-sm mt-1">{product.category}</p>
+                      <p className="text-primary font-bold mt-2">{product.priceDisplay}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <div className="mt-8 text-center">
+                <Link
+                  href="/products"
+                  className="text-primary font-semibold hover:underline transition inline-block"
+                >
+                  Voir tous les produits →
+                </Link>
+              </div>
+            </section>
+          </>
+        )}
+      </main>
+
+      <PublicFooter />
     </div>
   );
 }

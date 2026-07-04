@@ -1,14 +1,51 @@
 'use client';
 
 import AuthGuard from '@/components/AuthGuard';
+import { AdminHeader } from '@/components/AdminHeader';
+import { AdminForm, type FormField } from '@/components/AdminForm';
+import { AdminTable, type TableColumn } from '@/components/AdminTable';
+import { useNotification } from '@/components/NotificationContext';
 import { useState, useEffect } from 'react';
 import { getProducts, createProduct, updateProduct, deleteProduct, type Product } from '@/lib/api';
 
+const productFormFields: FormField[] = [
+  { name: 'name', label: 'Nom du produit', type: 'text', required: true, placeholder: 'Entrer le nom' },
+  { name: 'description', label: 'Description', type: 'textarea', required: true, placeholder: 'Décrire le produit' },
+  { name: 'category', label: 'Catégorie', type: 'text', required: true, placeholder: 'Ex: Informatique' },
+  { name: 'price', label: 'Prix numérique', type: 'number', required: true, placeholder: '5000' },
+  { name: 'priceDisplay', label: 'Prix affiché', type: 'text', required: true, placeholder: 'Ex: À partir de 5 000 FCFA' },
+  { name: 'imageUrl', label: 'URL de l\'image', type: 'text', placeholder: 'https://example.com/image.jpg' },
+];
+
+const productColumns: TableColumn[] = [
+  { key: 'name', label: 'Nom' },
+  { key: 'category', label: 'Catégorie' },
+  { key: 'priceDisplay', label: 'Prix' },
+  {
+    key: 'description',
+    label: 'Description',
+    render: (value: string) => (
+      <span className="truncate max-w-xs" title={value}>
+        {value?.substring(0, 50)}...
+      </span>
+    ),
+  },
+];
+
 export default function AdminProductsPage() {
+  const { addNotification } = useNotification();
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [editingId, setEditingId] = useState<string | null>(null);
-  const [formData, setFormData] = useState<Partial<Product>>({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [formData, setFormData] = useState<Partial<Product>>({
+    name: '',
+    description: '',
+    category: '',
+    price: 0,
+    priceDisplay: '',
+    imageUrl: '',
+  });
 
   useEffect(() => {
     loadProducts();
@@ -18,190 +55,123 @@ export default function AdminProductsPage() {
     try {
       const data = await getProducts();
       setProducts(data);
-      setLoading(false);
     } catch (err) {
       console.error('Error fetching products:', err);
+      addNotification('error', 'Erreur lors du chargement des produits');
+    } finally {
       setLoading(false);
     }
   };
 
-  const handleSave = async () => {
-    if (!formData.name || !formData.category || !formData.priceDisplay) {
-      alert('Veuillez remplir tous les champs requis');
-      return;
-    }
+  const handleDataChange = (field: string, value: any) => {
+    setFormData(prev => ({ ...prev, [field]: value }));
+  };
 
+  const handleSave = async () => {
+    setIsSubmitting(true);
     try {
       if (editingId) {
         await updateProduct(editingId, formData as Product);
+        addNotification('success', 'Produit mis à jour avec succès');
       } else {
-        const newId = Date.now().toString();
-        await createProduct({ ...formData, id: newId } as Product);
+        const newProduct: Product = {
+          ...formData,
+          id: Date.now().toString(),
+        } as Product;
+        await createProduct(newProduct);
+        addNotification('success', 'Produit créé avec succès');
       }
       setEditingId(null);
-      setFormData({});
+      setFormData({
+        name: '',
+        description: '',
+        category: '',
+        price: 0,
+        priceDisplay: '',
+        imageUrl: '',
+      });
       await loadProducts();
     } catch (err) {
       console.error('Error saving product:', err);
-      alert('Erreur lors de la sauvegarde');
+      addNotification('error', 'Erreur lors de la sauvegarde');
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
   const handleDelete = async (id: string) => {
-    if (!confirm('Êtes-vous sûr de vouloir supprimer ce produit ?')) return;
-    
     try {
       await deleteProduct(id);
+      addNotification('success', 'Produit supprimé avec succès');
       await loadProducts();
     } catch (err) {
       console.error('Error deleting product:', err);
-      alert('Erreur lors de la suppression');
+      addNotification('error', 'Erreur lors de la suppression');
     }
   };
 
   const handleEdit = (product: Product) => {
     setEditingId(product.id);
     setFormData(product);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const handleCancel = () => {
     setEditingId(null);
-    setFormData({});
+    setFormData({
+      name: '',
+      description: '',
+      category: '',
+      price: 0,
+      priceDisplay: '',
+      imageUrl: '',
+    });
   };
-
-  if (loading) return <div className="p-8 text-text-secondary">Chargement des produits...</div>;
 
   return (
     <AuthGuard>
       <div className="p-8 bg-background min-h-screen">
-        <h1 className="text-3xl font-bold mb-8 text-text-primary">Gestion des Produits</h1>
-        
-        <div className="bg-surface border border-border rounded-3xl shadow-sm p-6 mb-8">
-          <h2 className="text-xl font-semibold mb-4 text-text-primary">
-            {editingId ? 'Modifier le produit' : 'Nouveau produit'}
-          </h2>
-          <div className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium text-text-secondary mb-2">Nom</label>
-              <input
-                type="text"
-                value={formData.name || ''}
-                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                className="w-full p-3 border border-border rounded-xl bg-background text-text-primary"
-                placeholder="Nom du produit"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-text-secondary mb-2">Description</label>
-              <textarea
-                value={formData.description || ''}
-                onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                className="w-full p-3 border border-border rounded-xl bg-background text-text-primary"
-                placeholder="Description du produit"
-                rows={3}
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-text-secondary mb-2">Catégorie</label>
-              <input
-                type="text"
-                value={formData.category || ''}
-                onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-                className="w-full p-3 border border-border rounded-xl bg-background text-text-primary"
-                placeholder="Catégorie"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-text-secondary mb-2">Prix affiché</label>
-              <input
-                type="text"
-                value={formData.priceDisplay || ''}
-                onChange={(e) => setFormData({ ...formData, priceDisplay: e.target.value })}
-                className="w-full p-3 border border-border rounded-xl bg-background text-text-primary"
-                placeholder="Ex: À partir de 5 000 FCFA"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-text-secondary mb-2">Prix numérique</label>
-              <input
-                type="number"
-                value={formData.price || ''}
-                onChange={(e) => setFormData({ ...formData, price: Number(e.target.value) })}
-                className="w-full p-3 border border-border rounded-xl bg-background text-text-primary"
-                placeholder="5000"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-text-secondary mb-2">URL de l'image</label>
-              <input
-                type="text"
-                value={formData.imageUrl || ''}
-                onChange={(e) => setFormData({ ...formData, imageUrl: e.target.value })}
-                className="w-full p-3 border border-border rounded-xl bg-background text-text-primary"
-                placeholder="https://example.com/image.jpg"
-              />
-            </div>
-            <div className="flex gap-4">
-              <button
-                onClick={handleSave}
-                className="px-6 py-3 bg-primary text-white rounded-xl font-semibold hover:opacity-90 transition"
-              >
-                {editingId ? 'Mettre à jour' : 'Créer'}
-              </button>
-              {editingId && (
-                <button
-                  onClick={handleCancel}
-                  className="px-6 py-3 bg-surfaceMuted text-text-primary rounded-xl font-semibold hover:opacity-90 transition"
-                >
-                  Annuler
-                </button>
-              )}
-            </div>
-          </div>
-        </div>
+        <AdminHeader
+          title="Gestion des Produits"
+          description="Créer, modifier et supprimer les produits"
+          action={{
+            label: '+ Nouveau produit',
+            onClick: () => {
+              setEditingId(null);
+              setFormData({
+                name: '',
+                description: '',
+                category: '',
+                price: 0,
+                priceDisplay: '',
+                imageUrl: '',
+              });
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            },
+          }}
+        />
 
-        <div className="bg-surface border border-border rounded-3xl shadow-sm overflow-hidden">
-          <table className="min-w-full">
-            <thead className="bg-surfaceMuted">
-              <tr className="text-left">
-                <th className="p-4 text-text-primary font-semibold">Nom</th>
-                <th className="p-4 text-text-primary font-semibold">Catégorie</th>
-                <th className="p-4 text-text-primary font-semibold">Prix</th>
-                <th className="p-4 text-text-primary font-semibold">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {products.map((product) => (
-                <tr key={product.id} className="border-t border-border">
-                  <td className="p-4 text-text-secondary">{product.name}</td>
-                  <td className="p-4 text-text-secondary">{product.category}</td>
-                  <td className="p-4 text-text-secondary">{product.priceDisplay}</td>
-                  <td className="p-4">
-                    <div className="flex gap-2">
-                      <button
-                        onClick={() => handleEdit(product)}
-                        className="px-3 py-1 bg-primary/10 text-primary rounded-lg text-sm font-medium hover:bg-primary/20 transition"
-                      >
-                        Modifier
-                      </button>
-                      <button
-                        onClick={() => handleDelete(product.id)}
-                        className="px-3 py-1 bg-red-100 text-red-600 rounded-lg text-sm font-medium hover:bg-red-200 transition"
-                      >
-                        Supprimer
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-          {products.length === 0 && (
-            <div className="p-8 text-center text-text-secondary">
-              Aucun produit disponible
-            </div>
-          )}
-        </div>
+        {editingId || Object.values(formData).some(v => v) ? (
+          <AdminForm
+            title={editingId ? 'Modifier le produit' : 'Nouveau produit'}
+            fields={productFormFields}
+            data={formData}
+            onDataChange={handleDataChange}
+            onSubmit={handleSave}
+            onCancel={handleCancel}
+            isSubmitting={isSubmitting}
+            submitLabel={editingId ? 'Mettre à jour' : 'Créer'}
+          />
+        ) : null}
+
+        <AdminTable
+          columns={productColumns}
+          data={products}
+          onEdit={handleEdit}
+          onDelete={handleDelete}
+          loading={loading}
+          emptyMessage="Aucun produit. Créez le premier maintenant!"
+        />
       </div>
     </AuthGuard>
   );

@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { AuthProvider } from "@/components/AuthContext";
+import { NotificationProvider } from "@/components/NotificationContext";
+import { NotificationContainer } from "@/components/NotificationContainer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -14,8 +16,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Pro Informatique",
-  description: "Vos services informatiques et produits technologiques",
+  title: "Pro Informatique - Panel d'Administration",
+  description: "Panel d'administration pour les services informatiques et produits technologiques",
+  viewport: "width=device-width, initial-scale=1, maximum-scale=5",
 };
 
 export default function RootLayout({
@@ -26,12 +29,15 @@ export default function RootLayout({
   return (
     <html
       lang="fr"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased bg-background`}
     >
       <body className="min-h-full flex flex-col">
-        <AuthProvider>
-          {children}
-        </AuthProvider>
+        <NotificationProvider>
+          <AuthProvider>
+            <NotificationContainer />
+            {children}
+          </AuthProvider>
+        </NotificationProvider>
       </body>
     </html>
   );
