@@ -32,7 +32,11 @@ export default function AuthGuard({ children }: { children: React.ReactNode }) {
           />
           <button
             className="w-full p-3 bg-primary text-white rounded-xl font-bold"
-            onClick={() => signInWithEmailAndPassword(auth, email, password)}
+            onClick={() => {
+              if (auth) {
+                signInWithEmailAndPassword(auth, email, password);
+              }
+            }}
           >
             Se connecter
           </button>
@@ -45,7 +49,7 @@ export default function AuthGuard({ children }: { children: React.ReactNode }) {
     <>
       <div className="p-4 bg-surface border-b border-border flex justify-between items-center">
         <span className="text-text-secondary">Connecté en tant qu'admin</span>
-        <button onClick={() => signOut(auth)} className="text-cardPink font-bold">Déconnexion</button>
+        <button onClick={() => auth && signOut(auth)} className="text-cardPink font-bold">Déconnexion</button>
       </div>
       {children}
     </>
