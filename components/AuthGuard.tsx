@@ -45,6 +45,7 @@ export default function AuthGuard({ children }: { children: React.ReactNode }) {
             className="w-full p-3 bg-primary text-white rounded-xl font-bold"
             onClick={async () => {
               try {
+                setError('');
                 if (isLogin) {
                   await login(email, password);
                 } else {
@@ -52,6 +53,7 @@ export default function AuthGuard({ children }: { children: React.ReactNode }) {
                   setIsLogin(true);
                 }
               } catch (err) {
+                console.error('Auth error:', err);
                 setError(isLogin ? 'Identifiants invalides' : 'Erreur lors de la création du compte');
               }
             }}
