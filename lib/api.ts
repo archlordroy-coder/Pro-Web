@@ -45,6 +45,13 @@ export interface Computer {
   isAvailable: boolean;
 }
 
+export interface Promotion {
+  id: string;
+  title: string;
+  description: string;
+  imageUrl: string;
+}
+
 // Generic fetch helper
 async function fetchAPI(endpoint: string, options?: RequestInit) {
   const response = await fetch(`${API_BASE_URL}${endpoint}`, {
@@ -165,5 +172,30 @@ export async function updateComputer(id: string, computer: Computer): Promise<vo
   await fetchAPI(`/computers/${id}`, {
     method: 'PUT',
     body: JSON.stringify(computer),
+  });
+}
+
+// Promotions
+export async function getPromotions(): Promise<Promotion[]> {
+  return fetchAPI('/promotions');
+}
+
+export async function createPromotion(promotion: Promotion): Promise<void> {
+  await fetchAPI('/promotions', {
+    method: 'POST',
+    body: JSON.stringify(promotion),
+  });
+}
+
+export async function updatePromotion(id: string, promotion: Promotion): Promise<void> {
+  await fetchAPI(`/promotions/${id}`, {
+    method: 'PUT',
+    body: JSON.stringify(promotion),
+  });
+}
+
+export async function deletePromotion(id: string): Promise<void> {
+  await fetchAPI(`/promotions/${id}`, {
+    method: 'DELETE',
   });
 }
