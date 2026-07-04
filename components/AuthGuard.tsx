@@ -18,7 +18,7 @@ export default function AuthGuard({ children }: { children: React.ReactNode }) {
       <div className="flex items-center justify-center min-h-screen bg-background">
         <div className="p-8 bg-surface rounded-3xl shadow-sm border border-border w-96">
           <h1 className="text-2xl font-bold mb-6 text-primary">
-            {isLogin ? 'Connexion Admin' : 'Créer un compte'}
+            {isLogin ? 'Connexion Admin' : 'Créer un compte Admin'}
           </h1>
           {!isLogin && (
             <input

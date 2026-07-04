@@ -2,67 +2,66 @@
 
 import AuthGuard from '@/components/AuthGuard';
 import { useState, useEffect } from 'react';
-import { getPromotions, createPromotion, updatePromotion, deletePromotion } from '@/lib/api';
-import type { Promotion } from '@/lib/api';
+import { getProducts, createProduct, updateProduct, deleteProduct, type Product } from '@/lib/api';
 
-export default function PromotionsPage() {
-  const [promotions, setPromotions] = useState<Promotion[]>([]);
+export default function AdminProductsPage() {
+  const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [editingId, setEditingId] = useState<string | null>(null);
-  const [formData, setFormData] = useState<Partial<Promotion>>({});
+  const [formData, setFormData] = useState<Partial<Product>>({});
 
   useEffect(() => {
-    loadPromotions();
+    loadProducts();
   }, []);
 
-  const loadPromotions = async () => {
+  const loadProducts = async () => {
     try {
-      const data = await getPromotions();
-      setPromotions(data);
+      const data = await getProducts();
+      setProducts(data);
       setLoading(false);
     } catch (err) {
-      console.error('Error fetching promotions:', err);
+      console.error('Error fetching products:', err);
       setLoading(false);
     }
   };
 
   const handleSave = async () => {
-    if (!formData.title || !formData.description || !formData.imageUrl) {
-      alert('Veuillez remplir tous les champs');
+    if (!formData.name || !formData.category || !formData.priceDisplay) {
+      alert('Veuillez remplir tous les champs requis');
       return;
     }
 
     try {
       if (editingId) {
-        await updatePromotion(editingId, formData as Promotion);
+        await updateProduct(editingId, formData as Product);
       } else {
         const newId = Date.now().toString();
-        await createPromotion({ ...formData, id: newId } as Promotion);
+        await createProduct({ ...formData, id: newId } as Product);
       }
       setEditingId(null);
       setFormData({});
-      await loadPromotions();
+      await loadProducts();
     } catch (err) {
-      console.error('Error saving promotion:', err);
+      console.error('Error saving product:', err);
       alert('Erreur lors de la sauvegarde');
     }
   };
 
   const handleDelete = async (id: string) => {
-    if (!confirm('Êtes-vous sûr de vouloir supprimer cette promotion ?')) return;
+    if (!confirm('Êtes-vous sûr de vouloir supprimer ce produit ?')) return;
     
     try {
-      await deletePromotion(id);
-      await loadPromotions();
+      await deleteProduct(id);
+      await loadProducts();
     } catch (err) {
-      console.error('Error deleting promotion:', err);
+      console.error('Error deleting product:', err);
       alert('Erreur lors de la suppression');
     }
   };
 
-  const handleEdit = (promotion: Promotion) => {
-    setEditingId(promotion.id);
-    setFormData(promotion);
+  const handleEdit = (product: Product) => {
+    setEditingId(product.id);
+    setFormData(product);
   };
 
   const handleCancel = () => {
@@ -70,26 +69,26 @@ export default function PromotionsPage() {
     setFormData({});
   };
 
-  if (loading) return <div className="p-8 text-text-secondary">Chargement des promotions...</div>;
+  if (loading) return <div className="p-8 text-text-secondary">Chargement des produits...</div>;
 
   return (
     <AuthGuard>
       <div className="p-8 bg-background min-h-screen">
-        <h1 className="text-3xl font-bold mb-8 text-text-primary">Gestion des Promotions</h1>
+        <h1 className="text-3xl font-bold mb-8 text-text-primary">Gestion des Produits</h1>
         
         <div className="bg-surface border border-border rounded-3xl shadow-sm p-6 mb-8">
           <h2 className="text-xl font-semibold mb-4 text-text-primary">
-            {editingId ? 'Modifier la promotion' : 'Nouvelle promotion'}
+            {editingId ? 'Modifier le produit' : 'Nouveau produit'}
           </h2>
           <div className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-text-secondary mb-2">Titre</label>
+              <label className="block text-sm font-medium text-text-secondary mb-2">Nom</label>
               <input
                 type="text"
-                value={formData.title || ''}
-                onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                value={formData.name || ''}
+                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                 className="w-full p-3 border border-border rounded-xl bg-background text-text-primary"
-                placeholder="Titre de la promotion"
+                placeholder="Nom du produit"
               />
             </div>
             <div>
@@ -98,8 +97,38 @@ export default function PromotionsPage() {
                 value={formData.description || ''}
                 onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                 className="w-full p-3 border border-border rounded-xl bg-background text-text-primary"
-                placeholder="Description de la promotion"
+                placeholder="Description du produit"
                 rows={3}
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-text-secondary mb-2">Catégorie</label>
+              <input
+                type="text"
+                value={formData.category || ''}
+                onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+                className="w-full p-3 border border-border rounded-xl bg-background text-text-primary"
+                placeholder="Catégorie"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-text-secondary mb-2">Prix affiché</label>
+              <input
+                type="text"
+                value={formData.priceDisplay || ''}
+                onChange={(e) => setFormData({ ...formData, priceDisplay: e.target.value })}
+                className="w-full p-3 border border-border rounded-xl bg-background text-text-primary"
+                placeholder="Ex: À partir de 5 000 FCFA"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-text-secondary mb-2">Prix numérique</label>
+              <input
+                type="number"
+                value={formData.price || ''}
+                onChange={(e) => setFormData({ ...formData, price: Number(e.target.value) })}
+                className="w-full p-3 border border-border rounded-xl bg-background text-text-primary"
+                placeholder="5000"
               />
             </div>
             <div>
@@ -135,37 +164,28 @@ export default function PromotionsPage() {
           <table className="min-w-full">
             <thead className="bg-surfaceMuted">
               <tr className="text-left">
-                <th className="p-4 text-text-primary font-semibold">Image</th>
-                <th className="p-4 text-text-primary font-semibold">Titre</th>
-                <th className="p-4 text-text-primary font-semibold">Description</th>
+                <th className="p-4 text-text-primary font-semibold">Nom</th>
+                <th className="p-4 text-text-primary font-semibold">Catégorie</th>
+                <th className="p-4 text-text-primary font-semibold">Prix</th>
                 <th className="p-4 text-text-primary font-semibold">Actions</th>
               </tr>
             </thead>
             <tbody>
-              {promotions.map((promotion) => (
-                <tr key={promotion.id} className="border-t border-border">
-                  <td className="p-4">
-                    <img
-                      src={promotion.imageUrl}
-                      alt={promotion.title}
-                      className="w-20 h-20 object-cover rounded-lg"
-                      onError={(e) => {
-                        e.currentTarget.src = '/placeholder.png';
-                      }}
-                    />
-                  </td>
-                  <td className="p-4 text-text-secondary">{promotion.title}</td>
-                  <td className="p-4 text-text-secondary max-w-xs truncate">{promotion.description}</td>
+              {products.map((product) => (
+                <tr key={product.id} className="border-t border-border">
+                  <td className="p-4 text-text-secondary">{product.name}</td>
+                  <td className="p-4 text-text-secondary">{product.category}</td>
+                  <td className="p-4 text-text-secondary">{product.priceDisplay}</td>
                   <td className="p-4">
                     <div className="flex gap-2">
                       <button
-                        onClick={() => handleEdit(promotion)}
+                        onClick={() => handleEdit(product)}
                         className="px-3 py-1 bg-primary/10 text-primary rounded-lg text-sm font-medium hover:bg-primary/20 transition"
                       >
                         Modifier
                       </button>
                       <button
-                        onClick={() => handleDelete(promotion.id)}
+                        onClick={() => handleDelete(product.id)}
                         className="px-3 py-1 bg-red-100 text-red-600 rounded-lg text-sm font-medium hover:bg-red-200 transition"
                       >
                         Supprimer
@@ -176,9 +196,9 @@ export default function PromotionsPage() {
               ))}
             </tbody>
           </table>
-          {promotions.length === 0 && (
+          {products.length === 0 && (
             <div className="p-8 text-center text-text-secondary">
-              Aucune promotion disponible
+              Aucun produit disponible
             </div>
           )}
         </div>

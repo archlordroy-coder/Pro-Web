@@ -2,67 +2,66 @@
 
 import AuthGuard from '@/components/AuthGuard';
 import { useState, useEffect } from 'react';
-import { getPromotions, createPromotion, updatePromotion, deletePromotion } from '@/lib/api';
-import type { Promotion } from '@/lib/api';
+import { getServices, createService, updateService, deleteService, type Service } from '@/lib/api';
 
-export default function PromotionsPage() {
-  const [promotions, setPromotions] = useState<Promotion[]>([]);
+export default function AdminServicesPage() {
+  const [services, setServices] = useState<Service[]>([]);
   const [loading, setLoading] = useState(true);
   const [editingId, setEditingId] = useState<string | null>(null);
-  const [formData, setFormData] = useState<Partial<Promotion>>({});
+  const [formData, setFormData] = useState<Partial<Service>>({});
 
   useEffect(() => {
-    loadPromotions();
+    loadServices();
   }, []);
 
-  const loadPromotions = async () => {
+  const loadServices = async () => {
     try {
-      const data = await getPromotions();
-      setPromotions(data);
+      const data = await getServices();
+      setServices(data);
       setLoading(false);
     } catch (err) {
-      console.error('Error fetching promotions:', err);
+      console.error('Error fetching services:', err);
       setLoading(false);
     }
   };
 
   const handleSave = async () => {
-    if (!formData.title || !formData.description || !formData.imageUrl) {
+    if (!formData.title || !formData.description) {
       alert('Veuillez remplir tous les champs');
       return;
     }
 
     try {
       if (editingId) {
-        await updatePromotion(editingId, formData as Promotion);
+        await updateService(editingId, formData as Service);
       } else {
         const newId = Date.now().toString();
-        await createPromotion({ ...formData, id: newId } as Promotion);
+        await createService({ ...formData, id: newId } as Service);
       }
       setEditingId(null);
       setFormData({});
-      await loadPromotions();
+      await loadServices();
     } catch (err) {
-      console.error('Error saving promotion:', err);
+      console.error('Error saving service:', err);
       alert('Erreur lors de la sauvegarde');
     }
   };
 
   const handleDelete = async (id: string) => {
-    if (!confirm('Êtes-vous sûr de vouloir supprimer cette promotion ?')) return;
+    if (!confirm('Êtes-vous sûr de vouloir supprimer ce service ?')) return;
     
     try {
-      await deletePromotion(id);
-      await loadPromotions();
+      await deleteService(id);
+      await loadServices();
     } catch (err) {
-      console.error('Error deleting promotion:', err);
+      console.error('Error deleting service:', err);
       alert('Erreur lors de la suppression');
     }
   };
 
-  const handleEdit = (promotion: Promotion) => {
-    setEditingId(promotion.id);
-    setFormData(promotion);
+  const handleEdit = (service: Service) => {
+    setEditingId(service.id);
+    setFormData(service);
   };
 
   const handleCancel = () => {
@@ -70,16 +69,16 @@ export default function PromotionsPage() {
     setFormData({});
   };
 
-  if (loading) return <div className="p-8 text-text-secondary">Chargement des promotions...</div>;
+  if (loading) return <div className="p-8 text-text-secondary">Chargement des services...</div>;
 
   return (
     <AuthGuard>
       <div className="p-8 bg-background min-h-screen">
-        <h1 className="text-3xl font-bold mb-8 text-text-primary">Gestion des Promotions</h1>
+        <h1 className="text-3xl font-bold mb-8 text-text-primary">Gestion des Services</h1>
         
         <div className="bg-surface border border-border rounded-3xl shadow-sm p-6 mb-8">
           <h2 className="text-xl font-semibold mb-4 text-text-primary">
-            {editingId ? 'Modifier la promotion' : 'Nouvelle promotion'}
+            {editingId ? 'Modifier le service' : 'Nouveau service'}
           </h2>
           <div className="space-y-4">
             <div>
@@ -89,7 +88,7 @@ export default function PromotionsPage() {
                 value={formData.title || ''}
                 onChange={(e) => setFormData({ ...formData, title: e.target.value })}
                 className="w-full p-3 border border-border rounded-xl bg-background text-text-primary"
-                placeholder="Titre de la promotion"
+                placeholder="Titre du service"
               />
             </div>
             <div>
@@ -98,18 +97,28 @@ export default function PromotionsPage() {
                 value={formData.description || ''}
                 onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                 className="w-full p-3 border border-border rounded-xl bg-background text-text-primary"
-                placeholder="Description de la promotion"
+                placeholder="Description du service"
                 rows={3}
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-text-secondary mb-2">URL de l'image</label>
+              <label className="block text-sm font-medium text-text-secondary mb-2">Catégorie</label>
               <input
                 type="text"
-                value={formData.imageUrl || ''}
-                onChange={(e) => setFormData({ ...formData, imageUrl: e.target.value })}
+                value={formData.category || ''}
+                onChange={(e) => setFormData({ ...formData, category: e.target.value })}
                 className="w-full p-3 border border-border rounded-xl bg-background text-text-primary"
-                placeholder="https://example.com/image.jpg"
+                placeholder="Catégorie"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-text-secondary mb-2">Prix</label>
+              <input
+                type="text"
+                value={formData.priceDisplay || ''}
+                onChange={(e) => setFormData({ ...formData, priceDisplay: e.target.value })}
+                className="w-full p-3 border border-border rounded-xl bg-background text-text-primary"
+                placeholder="Ex: À partir de 10 000 FCFA"
               />
             </div>
             <div className="flex gap-4">
@@ -135,37 +144,28 @@ export default function PromotionsPage() {
           <table className="min-w-full">
             <thead className="bg-surfaceMuted">
               <tr className="text-left">
-                <th className="p-4 text-text-primary font-semibold">Image</th>
                 <th className="p-4 text-text-primary font-semibold">Titre</th>
-                <th className="p-4 text-text-primary font-semibold">Description</th>
+                <th className="p-4 text-text-primary font-semibold">Catégorie</th>
+                <th className="p-4 text-text-primary font-semibold">Prix</th>
                 <th className="p-4 text-text-primary font-semibold">Actions</th>
               </tr>
             </thead>
             <tbody>
-              {promotions.map((promotion) => (
-                <tr key={promotion.id} className="border-t border-border">
-                  <td className="p-4">
-                    <img
-                      src={promotion.imageUrl}
-                      alt={promotion.title}
-                      className="w-20 h-20 object-cover rounded-lg"
-                      onError={(e) => {
-                        e.currentTarget.src = '/placeholder.png';
-                      }}
-                    />
-                  </td>
-                  <td className="p-4 text-text-secondary">{promotion.title}</td>
-                  <td className="p-4 text-text-secondary max-w-xs truncate">{promotion.description}</td>
+              {services.map((service) => (
+                <tr key={service.id} className="border-t border-border">
+                  <td className="p-4 text-text-secondary">{service.title}</td>
+                  <td className="p-4 text-text-secondary">{service.category}</td>
+                  <td className="p-4 text-text-secondary">{service.priceDisplay}</td>
                   <td className="p-4">
                     <div className="flex gap-2">
                       <button
-                        onClick={() => handleEdit(promotion)}
+                        onClick={() => handleEdit(service)}
                         className="px-3 py-1 bg-primary/10 text-primary rounded-lg text-sm font-medium hover:bg-primary/20 transition"
                       >
                         Modifier
                       </button>
                       <button
-                        onClick={() => handleDelete(promotion.id)}
+                        onClick={() => handleDelete(service.id)}
                         className="px-3 py-1 bg-red-100 text-red-600 rounded-lg text-sm font-medium hover:bg-red-200 transition"
                       >
                         Supprimer
@@ -176,9 +176,9 @@ export default function PromotionsPage() {
               ))}
             </tbody>
           </table>
-          {promotions.length === 0 && (
+          {services.length === 0 && (
             <div className="p-8 text-center text-text-secondary">
-              Aucune promotion disponible
+              Aucun service disponible
             </div>
           )}
         </div>

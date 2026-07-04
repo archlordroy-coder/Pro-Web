@@ -6,6 +6,8 @@ export interface Service {
   description: string;
   iconCode: number;
   features: string[];
+  category?: string;
+  priceDisplay?: string;
 }
 
 export interface Product {

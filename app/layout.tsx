@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import AuthGuard from "@/components/AuthGuard";
 import { AuthProvider } from "@/components/AuthContext";
 
 const geistSans = Geist({
@@ -15,8 +14,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Admin Panel | Pro Informatique",
-  description: "Gestion Pro Informatique",
+  title: "Pro Informatique",
+  description: "Vos services informatiques et produits technologiques",
 };
 
 export default function RootLayout({
@@ -31,7 +30,7 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col">
         <AuthProvider>
-          <AuthGuard>{children}</AuthGuard>
+          {children}
         </AuthProvider>
       </body>
     </html>
