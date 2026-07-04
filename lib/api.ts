@@ -199,3 +199,44 @@ export async function deletePromotion(id: string): Promise<void> {
     method: 'DELETE',
   });
 }
+
+// Authentication
+export async function login(email: string, password: string): Promise<{ user: { id: string; email: string; name: string; role: string }; token: string }> {
+  return fetchAPI('/auth/login', {
+    method: 'POST',
+    body: JSON.stringify({ email, password }),
+  });
+}
+
+export async function register(name: string, email: string, password: string): Promise<void> {
+  await fetchAPI('/auth/register', {
+    method: 'POST',
+    body: JSON.stringify({ name, email, password }),
+  });
+}
+
+// Users Management
+export async function getUsers(): Promise<User[]> {
+  return fetchAPI('/users');
+}
+
+export async function deleteUser(id: string): Promise<void> {
+  await fetchAPI(`/users/${id}`, {
+    method: 'DELETE',
+  });
+}
+
+export async function updateUserRole(id: string, role: string): Promise<void> {
+  await fetchAPI(`/users/${id}/role`, {
+    method: 'PUT',
+    body: JSON.stringify({ role }),
+  });
+}
+
+export interface User {
+  id: string;
+  email: string;
+  name: string;
+  role: string;
+  createdAt: string;
+}
