@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useCallback } from 'react';
+import Link from 'next/link';
 import { useAuth } from './AuthContext';
 import { useNotification } from './NotificationContext';
 
@@ -74,7 +75,19 @@ export default function AuthGuard({ children }: { children: React.ReactNode }) {
 
   if (!user) {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-background p-4">
+      <div className="flex items-center justify-center min-h-screen bg-background p-4 relative">
+        {/* Bouton retour à l'accueil */}
+        <Link
+          href="/"
+          className="absolute top-4 left-4 md:top-6 md:left-6 inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-text-secondary hover:text-primary hover:bg-surface rounded-lg transition"
+          title="Retourner à l'accueil"
+        >
+          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+          </svg>
+          <span className="hidden sm:inline">Accueil</span>
+        </Link>
+
         <div className="w-full max-w-md">
           <div className="bg-surface rounded-3xl shadow-lg border border-border p-8">
             <h1 className="text-3xl font-bold mb-2 text-primary text-center">
@@ -146,6 +159,19 @@ export default function AuthGuard({ children }: { children: React.ReactNode }) {
                 {isLogin ? 'Pas de compte? Créer un compte' : 'Déjà un compte? Se connecter'}
               </button>
             </form>
+
+            {/* Lien retour à l'accueil en bas du formulaire */}
+            <div className="mt-6 pt-6 border-t border-border text-center">
+              <Link
+                href="/"
+                className="text-sm text-text-secondary hover:text-primary transition inline-flex items-center gap-2 justify-center"
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12a9 9 0 0110.89-8.8A9 9 0 1021.9 9" />
+                </svg>
+                Retourner à l&apos;accueil
+              </Link>
+            </div>
           </div>
         </div>
       </div>
