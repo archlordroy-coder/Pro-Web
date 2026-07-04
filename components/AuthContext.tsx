@@ -1,37 +1,43 @@
 'use client';
-import { createContext, useContext, useState, useEffect } from 'react';
-import { onAuthStateChanged, User } from 'firebase/auth';
-import { auth } from '@/lib/firebase';
+import { createContext, useContext, useState } from 'react';
 
-const AuthContext = createContext<{ user: User | null; token: string | null; loading: boolean }>({
+const AuthContext = createContext<{ user: { email: string } | null; token: string | null; loading: boolean; login: (email: string, password: string) => Promise<void>; logout: () => void }>({
   user: null,
   token: null,
-  loading: true,
+  loading: false,
+  login: async () => {},
+  logout: () => {},
 });
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<{ email: string } | null>(null);
   const [token, setToken] = useState<string | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    if (!auth) {
-      setLoading(false);
-      return;
-    }
-    return onAuthStateChanged(auth, async (currentUser) => {
-      setUser(currentUser);
-      if (currentUser) {
-        const idToken = await currentUser.getIdToken();
-        setToken(idToken);
+  const login = async (email: string, password: string) => {
+    setLoading(true);
+    try {
+      // Simple authentication - in production, call your API
+      if (email === 'admin@proinformatique.dev' && password === 'admin123') {
+        setUser({ email });
+        setToken('simple-token');
       } else {
-        setToken(null);
+        throw new Error('Invalid credentials');
       }
+    } catch (error) {
+      console.error('Login error:', error);
+      throw error;
+    } finally {
       setLoading(false);
-    });
-  }, []);
+    }
+  };
 
-  return <AuthContext.Provider value={{ user, token, loading }}>{children}</AuthContext.Provider>;
+  const logout = () => {
+    setUser(null);
+    setToken(null);
+  };
+
+  return <AuthContext.Provider value={{ user, token, loading, login, logout }}>{children}</AuthContext.Provider>;
 }
 
 export const useAuth = () => useContext(AuthContext);

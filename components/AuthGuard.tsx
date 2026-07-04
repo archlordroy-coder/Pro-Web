@@ -1,17 +1,15 @@
 'use client';
 
 import { useState } from 'react';
-import { signInWithEmailAndPassword, signOut } from 'firebase/auth';
-import { auth } from '@/lib/firebase';
 import { useAuth } from './AuthContext';
 
 export default function AuthGuard({ children }: { children: React.ReactNode }) {
-  const { user, loading } = useAuth();
+  const { user, loading, login, logout } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
 
   if (loading) return <div className="p-8">Chargement...</div>;
-  if (!auth) return <div className="p-8">Erreur d'initialisation Auth</div>;
 
   if (!user) {
     return (
@@ -30,11 +28,14 @@ export default function AuthGuard({ children }: { children: React.ReactNode }) {
             className="w-full p-3 mb-6 border rounded-xl"
             onChange={(e) => setPassword(e.target.value)}
           />
+          {error && <div className="mb-4 text-red-500 text-sm">{error}</div>}
           <button
             className="w-full p-3 bg-primary text-white rounded-xl font-bold"
-            onClick={() => {
-              if (auth) {
-                signInWithEmailAndPassword(auth, email, password);
+            onClick={async () => {
+              try {
+                await login(email, password);
+              } catch (err) {
+                setError('Identifiants invalides');
               }
             }}
           >
@@ -49,7 +50,7 @@ export default function AuthGuard({ children }: { children: React.ReactNode }) {
     <>
       <div className="p-4 bg-surface border-b border-border flex justify-between items-center">
         <span className="text-text-secondary">Connecté en tant qu'admin</span>
-        <button onClick={() => auth && signOut(auth)} className="text-cardPink font-bold">Déconnexion</button>
+        <button onClick={logout} className="text-cardPink font-bold">Déconnexion</button>
       </div>
       {children}
     </>
