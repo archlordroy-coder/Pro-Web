@@ -4,6 +4,8 @@ import { useState } from 'react';
 import { Product } from '@/lib/api';
 import { ReviewsList } from './ReviewsList';
 import { AddReviewForm } from './AddReviewForm';
+import { PublicHeader } from './PublicHeader';
+import { PublicFooter } from './PublicFooter';
 
 interface ProductDetailProps {
   product: Product;
@@ -14,9 +16,10 @@ export function ProductDetail({ product, onBackClick }: ProductDetailProps) {
   const [showReviewForm, setShowReviewForm] = useState(false);
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background flex flex-col">
+      <PublicHeader />
       {/* Header avec bouton retour */}
-      <div className="sticky top-0 z-40 bg-surface border-b border-border">
+      <div className="sticky top-16 z-30 bg-surface border-b border-border">
         <div className="max-w-6xl mx-auto px-6 py-4 flex items-center gap-4">
           <button
             onClick={onBackClick}
@@ -32,7 +35,7 @@ export function ProductDetail({ product, onBackClick }: ProductDetailProps) {
       </div>
 
       {/* Contenu principal */}
-      <main className="max-w-6xl mx-auto px-6 py-12">
+      <main className="flex-1 max-w-6xl mx-auto px-6 py-12 w-full">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           {/* Image et prix */}
           <div>
@@ -107,6 +110,8 @@ export function ProductDetail({ product, onBackClick }: ProductDetailProps) {
           </div>
         </div>
       </main>
+
+      <PublicFooter />
     </div>
   );
 }

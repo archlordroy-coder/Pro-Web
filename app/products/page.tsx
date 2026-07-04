@@ -4,6 +4,9 @@ import { useState, useEffect } from 'react';
 import { getProducts } from '@/lib/api';
 import type { Product } from '@/lib/api';
 import Link from 'next/link';
+import { PublicHeader } from '@/components/PublicHeader';
+import { PublicFooter } from '@/components/PublicFooter';
+import { CardSkeleton } from '@/components/index';
 
 export default function ProductsPage() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -21,10 +24,9 @@ export default function ProductsPage() {
       });
   }, []);
 
-  if (loading) return <div className="p-8 text-text-secondary">Chargement des produits...</div>;
-
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background flex flex-col">
+      <PublicHeader />
       {/* Hero Section */}
       <div className="bg-gradient-to-r from-primary to-primary/80 text-white py-16 px-8">
         <div className="max-w-6xl mx-auto">
@@ -33,8 +35,18 @@ export default function ProductsPage() {
         </div>
       </div>
 
+      <main className="flex-1">
       {/* Products Grid */}
-      <div className="max-w-6xl mx-auto py-16 px-8">
+      {loading ? (
+        <div className="max-w-6xl mx-auto py-16 px-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {[1, 2, 3, 4].map(i => (
+              <CardSkeleton key={i} />
+            ))}
+          </div>
+        </div>
+      ) : (
+        <div className="max-w-6xl mx-auto py-16 px-8">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {products.map((product) => (
             <div key={product.id} className="bg-surface border border-border rounded-3xl overflow-hidden hover:shadow-md transition">
@@ -52,7 +64,8 @@ export default function ProductsPage() {
             Aucun produit disponible pour le moment
           </div>
         )}
-      </div>
+        </div>
+      )}
 
       {/* CTA Section */}
       <div className="bg-surface py-16 px-8">
@@ -64,6 +77,9 @@ export default function ProductsPage() {
           </Link>
         </div>
       </div>
+      </main>
+
+      <PublicFooter />
     </div>
   );
 }
