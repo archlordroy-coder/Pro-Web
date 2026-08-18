@@ -1,0 +1,9 @@
+/**
+ * ETS Pro-Informatique — L’Atelier Signalétique.
+ * En-tête de page compact : étiquette technique, titre gauche et plan image à droite.
+ */
+import { ReactNode } from "react";
+
+export default function PageHero({ eyebrow, title, description, image, children }: { eyebrow: string; title: ReactNode; description: string; image: string; children?: ReactNode }) {
+  return <section className="relative isolate overflow-hidden border-b border-slate-200 bg-white"><div aria-hidden className="page-production-spine" /><div className="absolute inset-0 opacity-[0.055] print-grid" /><div className="relative mx-auto grid max-w-7xl gap-10 px-4 py-16 sm:px-8 lg:grid-cols-[0.92fr_1.08fr] lg:items-center lg:py-20"><div className="relative"><div className="production-register mb-7"><span>PRODUCTION</span><span>•</span><span>FORMAT / SERVICE</span></div><div className="inline-flex items-center gap-2 text-[11px] font-extrabold uppercase tracking-[0.18em] text-cyan-700"><span className="h-2 w-2 rounded-full bg-[#68B62A]" />{eyebrow}</div><h1 className="mt-5 max-w-xl font-display text-5xl font-bold leading-[0.94] tracking-[-0.065em] text-slate-950 sm:text-6xl">{title}</h1><p className="mt-6 max-w-xl text-base leading-7 text-slate-600 sm:text-lg">{description}</p>{children}</div><div className="print-sheet ribbon-frame relative overflow-hidden bg-slate-100 p-3 shadow-[0_28px_60px_rgba(15,23,42,0.14)]"><img src={image} alt="" className="aspect-[1.32/1] w-full object-cover" /><span className="absolute left-3 top-3 border border-white/50 bg-slate-950/80 px-3 py-2 text-[9px] font-extrabold uppercase tracking-[0.14em] text-white backdrop-blur">ETS PRO / Bafoussam</span><span className="absolute bottom-3 right-3 bg-[#68B62A] px-3 py-2 text-[9px] font-extrabold uppercase tracking-[0.14em] text-white">Bon à tirer</span></div></div><div aria-hidden className="production-ribbon" /></section>;
+}

@@ -1,0 +1,34 @@
+# Galerie interactive — ETS Pro-Informatique
+
+- [x] Vérifier la branche principale et l’état du dépôt Archlord12345/Pro-Web.
+- [x] Remplacer les fichiers du dépôt Archlord12345/Pro-Web par le site ETS Pro-Informatique actuel.
+- [x] Valider les fichiers remplacés puis créer un commit de synchronisation.
+- [x] Envoyer la version complète vers GitHub et confirmer le commit distant.
+- [x] Repositionner le Cybercafé Au Débit comme un service intégré d’ETS Pro-Informatique.
+- [x] Retirer la formulation « face au cybercafé » des coordonnées, itinéraires et contenus SEO.
+- [x] Remplacer la preuve visuelle décorative de la page Formalités par une scène administrative concrète.
+- [x] Renforcer les actions Formalités avec le Vert Repère et le vocabulaire de fiche de production.
+- [x] Rédiger la page locale Télé-déclarations et attestations à Bafoussam.
+- [x] Détailler l’accompagnement, les documents à prévoir et les limites de service.
+- [x] Ajouter les métadonnées locales, données structurées, liens internes et sitemap.
+- [x] Vérifier la page Formalités sur ordinateur et mobile.
+- [x] Rédiger la page locale « Impression à Bafoussam » et ses appels à l’action.
+- [x] Rédiger la page locale « Sérigraphie à Bafoussam » et ses appels à l’action.
+- [x] Ajouter les titres, descriptions, canonicals et données structurées par page.
+- [x] Ajouter les nouveaux liens à la navigation, aux services et au sitemap.
+- [x] Vérifier les nouvelles routes sur ordinateur et mobile.
+- [x] Confirmer les horaires : lundi–vendredi 07:30–18:00, samedi 08:00–14:00, dimanche fermé.
+- [x] Concevoir l’architecture multipage du site et les parcours de navigation.
+- [x] Créer une page de présentation dédiée au Cybercafé Au Débit by Pro.
+- [x] Organiser les pages Services, Galerie, À propos et Contact.
+- [x] Consolider les champs du formulaire de demande de devis.
+- [x] Vérifier la présence et l’accessibilité du bouton WhatsApp flottant sur le site.
+- [x] Définir une sélection éditoriale de réalisations impression et sérigraphie.
+- [x] Créer des visuels représentatifs cohérents avec l’identité de l’atelier.
+- [x] Ajouter les filtres, cartes interactives et aperçu en plein écran.
+- [x] Ajouter la localisation « face au cybercafé Au Débit » aux coordonnées et aux liens d’itinéraire.
+- [x] Intégrer les télé-déclarations, attestations d’immatriculation et services administratifs associés.
+- [x] Remplacer les emblèmes de marque par le logo officiel fourni.
+- [x] Renforcer les balises meta, données structurées et pages techniques de référencement local.
+- [x] Vérifier les interactions au format mobile et compiler le projet.
+- [ ] Enregistrer la page Formalités et le positionnement intégré du Cybercafé Au Débit dans une nouvelle version du projet.

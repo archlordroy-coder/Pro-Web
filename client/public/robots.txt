@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://etsproinfo-ejadwgbc.manus.space/sitemap.xml
