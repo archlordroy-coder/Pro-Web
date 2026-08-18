@@ -93,15 +93,15 @@
   body[data-seo-page] .service-ticket { isolation: isolate; min-height: 19rem; }
   body[data-seo-page] .service-ticket > * { position: relative; z-index: 1; }
   body[data-seo-page] .service-ticket::before { content: ""; position: absolute; inset: 0; z-index: 0; opacity: 0.18; background-position: right center; background-repeat: no-repeat; background-size: cover; mix-blend-mode: multiply; }
-  body[data-seo-page="impression"] .service-ticket:nth-child(1)::before { background-image: url("/manus-storage/ets-pro-atelier-production-tactile_43de1956.jpg"); }
-  body[data-seo-page="impression"] .service-ticket:nth-child(2)::before { background-image: url("/manus-storage/ets-pro-gallery-stationery_7ef8d754.jpg"); }
-  body[data-seo-page="impression"] .service-ticket:nth-child(3)::before { background-image: url("/manus-storage/ets-pro-design-works_ccfd28a9.jpg"); }
-  body[data-seo-page="serigraphie"] .service-ticket:nth-child(1)::before { background-image: url("/manus-storage/ets-pro-gallery-serigraphie_e0d8472e.jpg"); }
-  body[data-seo-page="serigraphie"] .service-ticket:nth-child(2)::before { background-image: url("/manus-storage/ets-pro-personalisation_b445858a.jpg"); }
-  body[data-seo-page="serigraphie"] .service-ticket:nth-child(3)::before { background-image: url("/manus-storage/ets-pro-fabrication-materials_52802c74.jpg"); }
-  body[data-seo-page="formalities"] .formalities-ticket:nth-child(1)::before { background-image: url("/manus-storage/ets-pro-cybercafe-service-desk_d6da4692.jpg"); }
-  body[data-seo-page="formalities"] .formalities-ticket:nth-child(2)::before { background-image: url("/manus-storage/ets-pro-gallery-stationery_7ef8d754.jpg"); }
-  body[data-seo-page="formalities"] .formalities-ticket:nth-child(3)::before { background-image: url("/manus-storage/ets-pro-design-works_ccfd28a9.jpg"); }
+  body[data-seo-page="impression"] .service-ticket:nth-child(1)::before { background-image: url("/images/atelier-production.jpg"); }
+  body[data-seo-page="impression"] .service-ticket:nth-child(2)::before { background-image: url("/images/gallery-stationery.jpg"); }
+  body[data-seo-page="impression"] .service-ticket:nth-child(3)::before { background-image: url("/images/design-works.jpg"); }
+  body[data-seo-page="serigraphie"] .service-ticket:nth-child(1)::before { background-image: url("/images/gallery-serigraphie.jpg"); }
+  body[data-seo-page="serigraphie"] .service-ticket:nth-child(2)::before { background-image: url("/images/personalisation.jpg"); }
+  body[data-seo-page="serigraphie"] .service-ticket:nth-child(3)::before { background-image: url("/images/fabrication-materials.jpg"); }
+  body[data-seo-page="formalities"] .formalities-ticket:nth-child(1)::before { background-image: url("/images/cybercafe-service-desk.jpg"); }
+  body[data-seo-page="formalities"] .formalities-ticket:nth-child(2)::before { background-image: url("/images/gallery-stationery.jpg"); }
+  body[data-seo-page="formalities"] .formalities-ticket:nth-child(3)::before { background-image: url("/images/design-works.jpg"); }
   body[data-seo-page="formalities"] .formalities-ticket { border-left: 3px solid #007b93; }
   body[data-seo-page="formalities"] .formalities-faq { border-left: 3px solid #68b62a; }
   .quote-form .form-input { border-radius: 0.16rem 0.72rem 0.16rem 0.72rem; border-left: 3px solid #007b93; }

@@ -6,7 +6,7 @@ import { useState, type ReactNode } from "react";
 import { Link, useLocation } from "wouter";
 import { Clock3, Facebook, Mail, MapPin, Menu, MessageCircle, Phone, X } from "lucide-react";
 
-const officialLogo = "/manus-storage/ets-pro-logo-officiel_e0c386f6.jpeg";
+const officialLogo = "/images/logo-officiel.jpeg";
 const whatsappNumber = "237699979857";
 const phone = "+237 699 97 98 57";
 

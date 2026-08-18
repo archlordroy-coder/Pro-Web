@@ -4,7 +4,7 @@
  */
 import { useEffect } from "react";
 
-const domain = "https://etsproinfo-ejadwgbc.manus.space";
+const domain = "https://ets-pro-informatique.vercel.app";
 
 type SeoProps = { title: string; description: string; path: string; serviceName: string; serviceDescription: string };
 

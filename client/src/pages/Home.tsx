@@ -39,40 +39,40 @@ import {
 
 const phone = "+237 699 97 98 57";
 const whatsappNumber = "237699979857";
-const officialLogo = "/manus-storage/ets-pro-logo-officiel_e0c386f6.jpeg";
-const brandSymbol = "/manus-storage/ets-pro-logo-symbol_a3502ff4.png";
-const heroImage = "/manus-storage/ets-pro-hero-print-studio_2fa49fdb.jpg";
-const personalisationImage = "/manus-storage/ets-pro-personalisation_b445858a.jpg";
-const designImage = "/manus-storage/ets-pro-design-works_ccfd28a9.jpg";
-const servicePoster = "/manus-storage/ets-pro-services-affiche_8be52dd8.jpeg";
+const officialLogo = "/images/logo-officiel.jpeg";
+const brandSymbol = "/images/logo-symbol.png";
+const heroImage = "/images/hero-print-studio.jpg";
+const personalisationImage = "/images/personalisation.jpg";
+const designImage = "/images/design-works.jpg";
+const servicePoster = "/images/services-affiche.jpeg";
 
 const galleryWorks = [
   {
     title: "Banderoles & visibilité grand format",
     category: "Grand format",
     description: "Banderoles, affiches et habillages pensés pour donner de l’ampleur à votre communication.",
-    image: "/manus-storage/ets-pro-gallery-grand-format_b31bb5a2.jpg",
+    image: "/images/gallery-grand-format.jpg",
     type: "Impression",
   },
   {
     title: "Textile & accessoires personnalisés",
     category: "Sérigraphie",
     description: "T-shirts, polos, casquettes et objets promotionnels personnalisés pour vos équipes et événements.",
-    image: "/manus-storage/ets-pro-gallery-serigraphie_e0d8472e.jpg",
+    image: "/images/gallery-serigraphie.jpg",
     type: "Sérigraphie",
   },
   {
     title: "Cartes, dépliants & supports utiles",
     category: "Impression",
     description: "Cartes, invitations, flyers, badges et documents de communication préparés dans le bon format.",
-    image: "/manus-storage/ets-pro-gallery-stationery_7ef8d754.jpg",
+    image: "/images/gallery-stationery.jpg",
     type: "Impression",
   },
   {
     title: "Tirages photo & encadrements",
     category: "Photo",
     description: "Agrandissements et impressions décoratives pour transformer une image en objet à conserver ou offrir.",
-    image: "/manus-storage/ets-pro-gallery-photo_6e7cc566.jpg",
+    image: "/images/gallery-photo.jpg",
     type: "Photo",
   },
 ];

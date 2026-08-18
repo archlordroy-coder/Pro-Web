@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://etsproinfo-ejadwgbc.manus.space/</loc>
+    <loc>https://ets-pro-informatique.vercel.app/</loc>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://etsproinfo-ejadwgbc.manus.space/impression-bafoussam</loc>
+    <loc>https://ets-pro-informatique.vercel.app/impression-bafoussam</loc>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://etsproinfo-ejadwgbc.manus.space/serigraphie-bafoussam</loc>
+    <loc>https://ets-pro-informatique.vercel.app/serigraphie-bafoussam</loc>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://etsproinfo-ejadwgbc.manus.space/teledeclarations-attestations-bafoussam</loc>
+    <loc>https://ets-pro-informatique.vercel.app/teledeclarations-attestations-bafoussam</loc>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>

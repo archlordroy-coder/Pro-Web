@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://etsproinfo-ejadwgbc.manus.space/sitemap.xml
+Sitemap: https://ets-pro-informatique.vercel.app/sitemap.xml
