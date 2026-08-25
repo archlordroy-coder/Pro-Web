@@ -1,49 +1,10 @@
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { AlertCircle, Home } from "lucide-react";
-import { useLocation } from "wouter";
+/** ETS Pro-Informatique — page 404 : retour vers les parcours essentiels dans le langage de l’atelier. */
+import { ArrowRight, Home, SearchX, Wrench } from "lucide-react";
+import { Link } from "wouter";
+import { PageShell } from "@/components/SiteShell";
+
+const officialLogo = "/manus-storage/favicon-informatique-spirale_2cb5b220.png";
 
 export default function NotFound() {
-  const [, setLocation] = useLocation();
-
-  const handleGoHome = () => {
-    setLocation("/");
-  };
-
-  return (
-    <div className="min-h-screen w-full flex items-center justify-center bg-gradient-to-br from-slate-50 to-slate-100">
-      <Card className="w-full max-w-lg mx-4 shadow-lg border-0 bg-white/80 backdrop-blur-sm">
-        <CardContent className="pt-8 pb-8 text-center">
-          <div className="flex justify-center mb-6">
-            <div className="relative">
-              <div className="absolute inset-0 bg-red-100 rounded-full animate-pulse" />
-              <AlertCircle className="relative h-16 w-16 text-red-500" />
-            </div>
-          </div>
-
-          <h1 className="text-4xl font-bold text-slate-900 mb-2">404</h1>
-
-          <h2 className="text-xl font-semibold text-slate-700 mb-4">
-            Page Not Found
-          </h2>
-
-          <p className="text-slate-600 mb-8 leading-relaxed">
-            Sorry, the page you are looking for doesn't exist.
-            <br />
-            It may have been moved or deleted.
-          </p>
-
-          <div className="flex flex-col sm:flex-row gap-3 justify-center">
-            <Button
-              onClick={handleGoHome}
-              className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2.5 rounded-lg transition-all duration-200 shadow-md hover:shadow-lg"
-            >
-              <Home className="w-4 h-4 mr-2" />
-              Go Home
-            </Button>
-          </div>
-        </CardContent>
-      </Card>
-    </div>
-  );
+  return <PageShell><section className="relative isolate min-h-[68vh] overflow-hidden bg-[#f7f6f1] px-4 py-16 sm:px-8 sm:py-24"><div aria-hidden className="page-production-spine" /><div aria-hidden className="absolute inset-0 opacity-[0.06] print-grid" /><div className="relative mx-auto grid max-w-6xl gap-12 lg:grid-cols-[0.78fr_1.22fr] lg:items-center"><div className="print-sheet overflow-hidden bg-slate-950 p-3 shadow-[0_28px_60px_rgba(15,23,42,0.18)]"><div className="relative grid aspect-square place-items-center overflow-hidden bg-gradient-to-br from-cyan-800 to-slate-950 p-8"><div aria-hidden className="absolute -right-8 -top-6 h-48 w-48 rounded-full border-[24px] border-[#9ada62]/30" /><img src={officialLogo} alt="Symbole Informatique" className="relative h-52 w-52 object-contain" /><span className="absolute bottom-5 left-5 text-[10px] font-extrabold uppercase tracking-[0.18em] text-cyan-100">Repère introuvable</span></div></div><div><p className="production-register"><span>ERREUR</span><span>•</span><span>ROUTE / 404</span></p><p className="mt-8 text-[11px] font-extrabold uppercase tracking-[0.18em] text-[#4d931e]">Page non disponible</p><h1 className="mt-5 font-display text-6xl font-bold leading-[0.88] tracking-[-0.075em] text-slate-950 sm:text-7xl">Cette page n’est pas <span className="text-cyan-700">dans le bon format.</span></h1><p className="mt-7 max-w-xl text-base leading-7 text-slate-600 sm:text-lg">Le lien a peut-être changé ou la page n’existe plus. Reprenez votre parcours depuis l’accueil ou consultez les services de l’atelier.</p><div className="mt-10 flex flex-col gap-3 sm:flex-row"><Link href="/" className="inline-flex items-center justify-center gap-3 bg-slate-950 px-6 py-4 text-sm font-extrabold text-white transition hover:bg-cyan-800 active:scale-[0.97]"><Home className="h-4 w-4" /> Retour à l’accueil</Link><Link href="/services" className="inline-flex items-center justify-center gap-3 border border-slate-300 bg-white px-6 py-4 text-sm font-extrabold text-slate-800 transition hover:border-cyan-700 hover:text-cyan-800 active:scale-[0.97]"><Wrench className="h-4 w-4" /> Voir les services</Link></div><Link href="/contact" className="mt-7 inline-flex items-center gap-2 border-b-2 border-[#68B62A] pb-1 text-sm font-extrabold text-cyan-800">Besoin d’aide pour votre projet ? <ArrowRight className="h-4 w-4" /></Link></div></div><SearchX aria-hidden className="absolute bottom-8 right-8 h-12 w-12 text-cyan-800/10" /><div aria-hidden className="production-ribbon absolute bottom-0 inset-x-0" /></section></PageShell>;
 }

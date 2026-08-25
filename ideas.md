@@ -1,86 +1,51 @@
-# Direction créative — ETS Pro-Informatique
+# Spécification de référence — ETS Pro-Informatique
 
-## Trois pistes explorées
+Les deux planches fournies par l’utilisateur constituent la **spécification visuelle prioritaire**. La refonte reprend leur structure d’information, leurs proportions, leur hiérarchie, leur sobriété et leur logique catalogue, tout en remplaçant les marques, produits et contenus de démonstration par ceux d’ETS Pro-Informatique. La référence ne doit pas être diluée par les anciens rubans d’atelier, découpes angulaires ou compositions éditoriales.
 
-| Thème | Très brève introduction | Probabilité |
+## Référence web — catalogue professionnel
+
+Le site web adopte une base blanc cassé et gris très clair, structurée par un liseré bleu nuit supérieur, un en-tête blanc fonctionnel et une navigation bleue horizontale. Le logo officiel ETS Pro-Informatique est placé à gauche ; un champ de recherche de services, des raccourcis Contact et Devis, puis l’accès WhatsApp structurent la zone supérieure. Le contenu est présenté comme un catalogue : carte héro avec promesse directe, familles de services illustrées, listes avec filtres à gauche, cartes en colonnes régulières et fiches de service à information dense à droite.
+
+Les titres, repères de catégorie, boutons, tableaux d’information et blocs d’avantages reprennent une grille rigoureuse proche de la planche web : bleu confiance, gris ardoise, blanc, bleu clair et un vert ETS réservé aux statuts et confirmations. La police passe à **Montserrat** pour restituer le rythme géométrique de la référence. Les bords sont discrets, les ombres légères, les cartes peu arrondies et les espaces clairement cadencés.
+
+## Référence mobile — application de services claire
+
+L’application Flutter reprend le parcours mobile de la planche : un bandeau bleu de bienvenue, recherche, panneaux d’accès rapide, carte promotionnelle d’information, catégories et barre de navigation basse fixe. Le mot « produit » est remplacé par **service** et le panier devient **Mon devis**. La fiche détail met en avant une image, la description du service, les bénéfices, les formats possibles et un grand bouton WhatsApp. La page de confirmation devient une confirmation de demande de devis, et le profil garde les réglages d’ambiance déjà livrés.
+
+Le design mobile abandonne les mécaniques de missions et de récompenses de la précédente itération au profit d’un catalogue professionnel lisible : en-têtes bleus, surfaces blanches, typographie sobre, cartes de service verticales, icônes fines, boutons bleus très visibles et navigation en cinq repères. Les sons, vibrations et ambiances sont maintenus dans les réglages, sans perturber le parcours principal.
+
+## Règle de prix et conversion
+
+ETS Pro-Informatique ne publie **aucun prix fixe** dans l’interface. Chaque emplacement de tarif est remplacé par l’un des libellés suivants, selon le contexte :
+
+| Contexte | Libellé retenu |
+| --- | --- |
+| Carte catalogue | **Tarif à discuter** |
+| Fiche de service | **Prix selon format, quantité et finition** |
+| Action principale | **Demander un devis sur WhatsApp** |
+| Information de réassurance | **Tarif discuté avec l’équipe via WhatsApp ou directement à l’atelier** |
+
+Les actions de conversion ne simulent ni panier ni paiement. Elles construisent un message WhatsApp contextualisé avec le nom du service, puis encouragent si besoin une visite à BP 1313, descente Akwa, Bafoussam.
+
+## Composants structurants
+
+| Surface | Web | Mobile |
 | --- | --- | --- |
-| **L’Atelier Signalétique** | Un langage de fabrication précis et lumineux, inspiré des ateliers d’impression où les formats, les matières et les couleurs donnent du relief à chaque projet. | 0.07 |
-| **Carnet de Couleurs** | Une expression plus éditoriale, chaleureuse et texturée, qui évoque les échantillons papier, les encres et les réalisations locales. | 0.04 |
-| **Circuit Vert** | Une identité technologique plus sobre, fondée sur la fiabilité, les flux et l’efficacité des solutions bureautiques. | 0.09 |
+| En-tête | Barre utilitaire bleu nuit, logo, recherche, contact, devis, navigation bleue | Bandeau bleu, salutation, recherche et notification |
+| Catalogue | Filtres latéraux, grille de cartes, accès fiche détail | Liste verticale de services, filtres et raccourcis |
+| Fiche service | Visuel, détails, options, disponibilités et appel WhatsApp | Image, information condensée, bénéfices et bouton devis |
+| Devis | Formulaire et résumé sans prix, redirection WhatsApp | Parcours de demande, confirmation et WhatsApp |
+| Réglages | Page dédiée existante, plus sobre | Profil/réglages depuis la barre basse |
 
-## Approche retenue — L’Atelier Signalétique
+## Structure Flutter actuelle des écrans de progression
 
-### Mouvement de design
+L’ancienne interface Flutter utilise `AppShell` comme contrôleur de navigation. Son état `index` sélectionne l’une des quatre vues : accueil, services, devis et réglages. Chaque passage de navigation déclenche le signal discret défini dans `SoundController`, puis remplace la page dans un `AnimatedSwitcher`.
 
-Le site s’inspire du **modernisme d’atelier** et de la **signalétique contemporaine** : une composition fonctionnelle, énergique et explicite, où l’identité cyan et vert de l’enseigne s’exprime comme une couleur de production plutôt que comme une décoration.
+Le devis est le seul parcours à étapes : `_QuotePageState` conserve `_step`, de `0` à `2`, et rend son contenu avec `_buildStep()`. `_QuoteProgress` dessine les trois repères connectés, tandis que `_QuoteCard` encapsule le titre, l’aide et le contenu de chaque étape. `_next()` valide l’étape courante, déclenche un retour haptique/sonore optionnel et incrémente `_step`. À la dernière étape, `_send()` compose le message WhatsApp. Dans la refonte, cette structure de machine à états est conservée, mais les intitulés et les surfaces seront rendus conformes à la planche mobile : **service → coordonnées → besoin → confirmation de devis**.
 
-### Principes directeurs
+## Décisions de style
 
-1. **Montrer le savoir-faire par le format.** Les découpes diagonales, rubans colorés et grandes surfaces rappellent les supports imprimés et les flux de fabrication.
-2. **Créer une lecture guidée.** Les sections alternent entre messages courts, preuves visuelles et actions directes afin de conduire vers une demande de devis ou un appel.
-3. **Donner de la place au concret.** Les services sont formulés avec des livrables clairs : banderoles, affiches, visuels, tasses, cartes, cadres et documents professionnels.
-4. **Rester accueillant et local.** La proximité de Bafoussam est présente dans le ton, les coordonnées et les raccourcis pratiques, sans inventer de promesses ou de témoignages.
-
-### Philosophie de couleur
-
-Le **cyan atelier** traduit la précision, la confiance et l’univers numérique, tandis que le **vert repère** introduit l’élan et la visibilité. Ils s’appuient sur un blanc papier chaud et un bleu-encre très sombre : cette opposition donne à la marque un aspect net, lisible et dynamique, à l’image d’un bon support imprimé.
-
-### Paradigme de mise en page
-
-La page se lit comme un **rouleau de production** : une ligne verticale d’information structure le défilement à gauche sur grand écran, alors que les blocs de contenu se décalent et se superposent légèrement vers la droite. Le hero est asymétrique, avec la promesse commerciale à gauche et une composition visuelle de supports imprimés à droite. Les cartes ne forment pas une grille uniforme ; elles sont organisées en plans de tailles variées.
-
-### Éléments signatures
-
-1. Un **ruban bicolore cyan/vert** qui traverse certains titres et sépare les grandes sections.
-2. Une **trame d’atelier** discrète, issue de points de repérage et de cadres techniques, en arrière-plan.
-3. Des **étiquettes de fabrication** compactes qui précisent les catégories de services et les appels à l’action.
-
-### Philosophie d’interaction
-
-Les interactions doivent être franches et orientées vers l’action. Les boutons se compriment légèrement au clic, les cartes de service se soulèvent avec retenue, et les liens de contact restent immédiatement accessibles. Le menu mobile privilégie la rapidité, avec des appels et messages WhatsApp sans détour.
-
-### Animation
-
-Les rubans, cartes et repères entrent par glissement court et par fondu lors du premier affichage, avec des décalages de 50 à 70 ms. Les effets restent sous 300 ms et se limitent à l’opacité et aux transformations. Les animations non essentielles sont supprimées lorsque l’utilisateur demande une réduction des mouvements.
-
-### Système typographique
-
-**Space Grotesk** porte les titres, avec une chasse ample, des graisses contrastées et des majuscules limitées aux étiquettes. **Manrope** assure la lecture courante, les listes de services et les détails de contact. Les grands titres évitent le centrage systématique et se composent sur deux ou trois lignes courtes.
-
-### Essence de marque
-
-**ETS Pro-Informatique transforme les idées et besoins du quotidien en supports professionnels, imprimés et personnalisés à Bafoussam.** Les traits de personnalité sont : **fiable, dynamique, concret**.
-
-### Voix de marque
-
-Le ton est direct, clair et orienté résultat : il explique la solution, nomme le livrable puis propose une action simple. Les titres évitent les généralités et les superlatifs vagues. Exemples :
-
-> « Votre message mérite le bon format. »
-
-> « Une idée, un support, un devis : parlons de votre projet. »
-
-### Wordmark et logo
-
-Le site utilisera le visuel officiel fourni comme marque principale. Un **symbole de ruban ascendant cyan et vert**, sans texte, sera aussi créé pour servir de favicon et de repère graphique à petite taille.
-
-### Couleur signature
-
-**Vert Repère — #68B62A.** Cette couleur doit être utilisée avec parcimonie pour les appels à l’action, les points de contact et les détails qui demandent l’attention.
-
-## Style Decisions
-
-- Le **Vert Repère #68B62A** est strictement une couleur de signal : appels à l’action, points de contact, pastilles et repères techniques, jamais une grande surface décorative dominante.
-- Les cartes, preuves et formulaires s’inspirent de **fiches de fabrication imprimées** : découpes angulaires, étiquette courte, code de fiche et composition légèrement décalée remplacent les cartes SaaS uniformément arrondies.
-- Toute image est traitée comme une **preuve d’atelier** : support, fichier, matière, machine ou livrable. Le document public fourni est clairement étiqueté comme élément source et non utilisé comme imagerie héroïque brute.
-
-## Informations publiques prises en compte
-
-Les éléments suivants sont intégrés au site : localisation à la descente Akwa, Bafoussam ; téléphone principal +237 699 97 98 57 ; e-mail public proinformatique2@gmail.com ; profil Facebook ETS Pro-Informatique ; spécialisation déclarée en impression numérique. L’affiche fournie complète cette base avec les offres explicitement mentionnées : impression numérique et grand format, graphisme de production, agrandissement photo et sérigraphie numérique. Une ancienne fiche externe comporte des coordonnées contradictoires à Bertoua ; elle n’est donc pas utilisée.
-
-La localisation est désormais précisée par l’utilisateur : **face au cybercafé Au Débit, à la descente Akwa de Bafoussam**. Les contenus mis à jour intègrent également les **télé-déclarations**, les **attestations d’immatriculation** et les formalités administratives connexes. Ces données utilisateur priment sur les fiches externes consultées.
-
-## Style Decisions
-
-Le ruban bicolore **cyan/vert**, ponctué d’encre sombre, est traité comme une signature structurelle : il rythme chaque en-tête de page, les fiches de services, les cadres d’images et le pied de page. Les pages privilégient les preuves de production — papier, textiles, machines, documents et plans de travail — plutôt que des maquettes abstraites. Les cartes sont explicitement traitées comme des **fiches de fabrication** : code de production, statut, découpe angulaire, règle colorée et formats volontairement variés.
-
-Les pages métier prolongent ce langage par un **flux continu de production** : un séparateur cyan/vert/encres traverse chaque section, tandis que les fiches de service deviennent des supports de preuve en intégrant à faible contraste des détails de machines, papiers, textiles, objets et documents réellement représentatifs des catégories décrites.
+- Bleu nuit : structure et informations de confiance ; bleu principal : boutons et navigation ; vert ETS : disponibilité, confirmation et statuts.
+- Montserrat : titres, navigation, étiquettes et chiffres ; une police système lisible peut compléter les petits textes mobiles.
+- Les mouvements sont limités à des transitions de 160 à 260 ms, au fondu et au déplacement très court, avec respect de `prefers-reduced-motion` côté web.
+- Les prix n’apparaissent jamais, même à titre indicatif ; l’accès WhatsApp et la visite en atelier deviennent les sorties prioritaires.

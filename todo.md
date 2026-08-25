@@ -1,5 +1,101 @@
 # Galerie interactive — ETS Pro-Informatique
 
+- [x] Documenter les règles de reproduction des planches de référence et la structure des parcours Flutter existants.
+- [x] Refondre le système visuel du site vers une expérience catalogue professionnelle à dominante bleu nuit et bleu repère.
+- [x] Recomposer les routes web autour de catalogues, fiches de service et appels au devis sans prix affiché.
+- [x] Refondre l’application Flutter avec la navigation, les cartes, les fiches et les profils inspirés de la planche mobile.
+- [ ] Vérifier les parcours, publier le site et compiler un APK Android signé de la nouvelle interface.
+
+- [x] Définir une direction mobile ludique, chaleureuse et propre à ETS Pro-Informatique, sans reproduction d’éléments de marque tiers.
+- [x] Reconcevoir les écrans Flutter autour de cartes à progression, de missions de services et d’actions très lisibles.
+- [x] Vérifier puis compiler une nouvelle version Android signée de l’application redessinée : version 1.1.0 (code 3), activité de lancement et signature validées.
+
+- [x] Collecter l’erreur Android exacte du plantage au démarrage et examiner les journaux disponibles : l’activité Kotlin était déclarée dans un package différent de l’identifiant Android de release.
+- [x] Isoler puis corriger la cause du démarrage défaillant dans la configuration Flutter de release.
+- [x] Recompiler, vérifier et livrer un APK Android corrigé : version 1.0.1 (code 2), activité de lancement et signature de release validées.
+
+- [x] Diagnostiquer Flutter, Android SDK et les capacités de compilation locale.
+- [x] Recréer l’application ETS Pro-Informatique en Flutter avec l’identité et les parcours validés.
+- [x] Configurer l’icône de lancement, l’écran de chargement et la signature Android de release.
+- [x] Compiler et vérifier un APK de release installable.
+- [x] Archiver le code source Flutter et livrer l’APK.
+- [x] Concevoir l’architecture et les parcours de l’application mobile.
+- [x] Préparer l’icône de lancement et l’écran de chargement avec le logo Informatique.
+- [x] Créer les écrans principaux, contenus, devis WhatsApp et informations de contact.
+- [x] Intégrer animations, sons, ambiances et préférences mobiles.
+- [x] Vérifier la navigation, l’accessibilité et le rendu mobile.
+- [x] Créer une route Paramètres dédiée à l’expérience sonore.
+- [x] Déplacer les sons, ambiances, volume et vibrations dans cette page.
+- [x] Retirer le panneau sonore flottant de l’interface générale.
+- [x] Vérifier les accès et les réglages sur ordinateur et mobile.
+- [x] Créer les ambiances Calme et Production, distinctes de l’ambiance Atelier.
+- [x] Ajouter un indicateur visuel de l’ambiance actuellement active.
+- [x] Ajouter une préférence persistante pour activer ou désactiver les vibrations mobiles.
+- [x] Vérifier les modes, les réglages et le panneau sur ordinateur et mobile.
+- [x] Définir une ambiance atelier optionnelle, sans lecture automatique.
+- [x] Ajouter un réglage de volume persistant au contrôle sonore.
+- [x] Ajouter des micro-vibrations aux confirmations mobiles importantes.
+- [x] Vérifier la compatibilité, la préférence de réduction et les parcours de devis.
+- [x] Définir les interactions qui bénéficieront d’un signal sonore discret.
+- [x] Créer des sons courts cohérents avec l’identité de l’atelier.
+- [x] Ajouter un contrôle sonore persistant, désactivé par défaut.
+- [x] Connecter les sons aux actions clés sans gêner la navigation.
+- [x] Vérifier les préférences de réduction et l’absence de lecture automatique.
+- [x] Définir et produire un visuel Open Graph adapté à chaque service.
+- [x] Associer les visuels aux métadonnées de partage par route.
+- [x] Ajouter une FAQ réutilisable aux pages de services.
+- [x] Renforcer les effets de survol, focus et mouvement réduit des boutons de partage.
+- [x] Vérifier les aperçus, FAQ et interactions sur ordinateur et mobile.
+- [x] Créer des composants réutilisables pour le fil d’Ariane et le partage social.
+- [x] Ajouter ces repères et boutons aux pages de services indexables.
+- [x] Créer une page 404 de marque avec retours vers l’accueil et les services.
+- [x] Vérifier les parcours, le partage et les données structurées associées.
+- [x] Auditer les titres, descriptions, canonicals et aperçus sociaux de chaque route.
+- [x] Compléter les données structurées locales et les directives d’indexation Google.
+- [x] Vérifier sitemap, robots, balises générées et build de production.
+- [x] Isoler le symbole cyan et vert du logo dans une icône carrée transparente.
+- [x] Configurer ce symbole comme favicon du site.
+- [x] Vérifier la déclaration du favicon dans le build de production.
+- [x] Créer une version du logo Informatique sans fond blanc.
+- [x] Remplacer le fichier de logo utilisé dans l’interface et les métadonnées.
+- [x] Vérifier la lisibilité du logo transparent sur les fonds clair et sombre.
+- [x] Importer le logo Informatique fourni dans les actifs du site.
+- [x] Recenser et remplacer chaque occurrence de l’ancien logo, y compris le favicon.
+- [x] Vérifier le cadrage et la lisibilité du nouveau logo sur ordinateur et mobile.
+- [x] Examiner l’état actuel de préparation de la demande sur le bouton.
+- [x] Renforcer l’indicateur de chargement et son libellé accessible.
+- [x] Vérifier la soumission valide, la prévention du double envoi et le mouvement réduit.
+- [x] Examiner les règles actuelles du formulaire de demande de devis.
+- [x] Ajouter des indicateurs de validité en temps réel pour chaque champ utile.
+- [x] Rendre les retours de saisie accessibles et cohérents avec l’identité visuelle.
+- [x] Vérifier le parcours de saisie, le message WhatsApp et le mouvement réduit.
+- [x] Créer un composant de révélation progressif réutilisable et accessible.
+- [x] Appliquer l’échelonnement aux fiches de services et aux éléments de galerie.
+- [x] Ajouter les révélations aux sections principales sans gêner la navigation.
+- [x] Vérifier le mouvement réduit et la fluidité des révélations sur mobile.
+- [x] Unifier les transitions de navigation, d’entrées de sections et d’actions.
+- [x] Renforcer la continuité visuelle entre les pages et leurs en-têtes.
+- [x] Améliorer les états de survol, focus et chargement sur les actions clés.
+- [x] Vérifier la fluidité desktop, mobile et les préférences de mouvement réduit.
+- [x] Ajouter une animation de préparation fluide avant la redirection WhatsApp.
+- [x] Afficher une confirmation de transition avec progression accessible.
+- [x] Vérifier l’animation en préférences de mouvement réduites et au format mobile.
+- [x] Composer le message WhatsApp à partir des champs validés du devis.
+- [x] Ouvrir automatiquement la conversation WhatsApp après la confirmation de succès.
+- [x] Vérifier le lien WhatsApp et le texte pré-rempli sur le parcours de devis.
+- [x] Définir les règles de validation des coordonnées et du descriptif de projet.
+- [x] Afficher des messages d’erreur accessibles à proximité des champs concernés.
+- [x] Ajouter une confirmation de succès explicite après la préparation de la demande.
+- [x] Vérifier le parcours de formulaire sur ordinateur et mobile.
+- [x] Retirer le chargement Umami qui provoque l’erreur HTTP/2.
+- [x] Recenser les images externes et préparer leurs copies dans le dépôt.
+- [x] Remplacer les URL `/manus-storage` par des chemins d’actifs versionnés dans le dépôt Vercel.
+- [x] Vérifier les images, les routes et la console dans le déploiement Vercel.
+- [x] Envoyer la correction des actifs vers GitHub et confirmer le déploiement.
+- [x] Ajouter la configuration Vercel adaptée au build Vite du site.
+- [x] Vérifier que Vercel déploie le dépôt Archlord12345/Pro-Web et la branche master.
+- [x] Envoyer la correction de configuration vers GitHub.
+- [x] Contrôler le nouveau déploiement Vercel après la correction.
 - [x] Vérifier la branche principale et l’état du dépôt Archlord12345/Pro-Web.
 - [x] Remplacer les fichiers du dépôt Archlord12345/Pro-Web par le site ETS Pro-Informatique actuel.
 - [x] Valider les fichiers remplacés puis créer un commit de synchronisation.
@@ -31,4 +127,4 @@
 - [x] Remplacer les emblèmes de marque par le logo officiel fourni.
 - [x] Renforcer les balises meta, données structurées et pages techniques de référencement local.
 - [x] Vérifier les interactions au format mobile et compiler le projet.
-- [ ] Enregistrer la page Formalités et le positionnement intégré du Cybercafé Au Débit dans une nouvelle version du projet.
+- [x] Enregistrer la page Formalités et le positionnement intégré du Cybercafé Au Débit dans une nouvelle version du projet.
