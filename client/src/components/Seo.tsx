@@ -5,13 +5,13 @@
 import { useEffect } from "react";
 
 const domain = "https://ets-pro-informatique.vercel.app";
-const logo = `${domain}/manus-storage/logo-informatique-transparent_7b3106be.png`;
+const logo = `${domain}/images/logo-officiel.jpeg`;
 const serviceShareImages: Record<string, { src: string; alt: string }> = {
-  "/services": { src: `${domain}/manus-storage/ets-pro-atelier-production-tactile_60bd90ab.jpg`, alt: "Atelier de production ETS Pro-Informatique à Bafoussam" },
-  "/impression-bafoussam": { src: `${domain}/manus-storage/ets-pro-gallery-grand-format_ec012fbf.jpg`, alt: "Impression grand format à Bafoussam" },
-  "/serigraphie-bafoussam": { src: `${domain}/manus-storage/ets-pro-gallery-serigraphie_91240803.jpg`, alt: "Sérigraphie et personnalisation à Bafoussam" },
-  "/teledeclarations-attestations-bafoussam": { src: `${domain}/manus-storage/ets-pro-formalities-desk_41c7c244.jpg`, alt: "Accompagnement aux télé-déclarations à Bafoussam" },
-  "/cybercafe-au-debit": { src: `${domain}/manus-storage/ets-pro-cybercafe-service-desk_4f071e66.jpg`, alt: "Cybercafé Au Débit by Pro à Bafoussam" },
+  "/services": { src: `${domain}/images/atelier-production.jpg`, alt: "Atelier de production ETS Pro-Informatique à Bafoussam" },
+  "/impression-bafoussam": { src: `${domain}/images/gallery-grand-format.jpg`, alt: "Impression grand format à Bafoussam" },
+  "/serigraphie-bafoussam": { src: `${domain}/images/gallery-serigraphie.jpg`, alt: "Sérigraphie et personnalisation à Bafoussam" },
+  "/teledeclarations-attestations-bafoussam": { src: `${domain}/images/formalities-desk.jpg`, alt: "Accompagnement aux télé-déclarations à Bafoussam" },
+  "/cybercafe-au-debit": { src: `${domain}/images/cybercafe-service-desk.jpg`, alt: "Cybercafé Au Débit by Pro à Bafoussam" },
 };
 
 type SeoProps = {

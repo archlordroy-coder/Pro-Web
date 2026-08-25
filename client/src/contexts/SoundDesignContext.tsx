@@ -22,9 +22,9 @@ type SoundContextValue = {
 };
 const SoundDesignContext = createContext<SoundContextValue | undefined>(undefined);
 const ambienceSources: Record<AmbienceMode, string> = {
-  atelier: "/manus-storage/ets-pro-ambiance-atelier_5df43234.mp3",
-  calme: "/manus-storage/ets-pro-ambiance-calme_8ca06fce.mp3",
-  production: "/manus-storage/ets-pro-ambiance-production_6951dd4c.mp3",
+  atelier: "/audio/ambiance-atelier.mp3",
+  calme: "/audio/ambiance-calme.mp3",
+  production: "/audio/ambiance-production.mp3",
 };
 const ambienceLabels: Record<AmbienceMode, string> = { atelier: "Atelier", calme: "Calme", production: "Production" };
 

@@ -7,7 +7,7 @@ import { Link, useLocation } from "wouter";
 import { Clock3, Facebook, Heart, Mail, MapPin, Menu, MessageCircle, Phone, Search, Settings2, ShoppingBag, UserRound, X } from "lucide-react";
 import ScrollRevealManager from "./ScrollRevealManager";
 
-const officialLogo = "/manus-storage/logo-informatique-transparent_7b3106be.png";
+const officialLogo = "/images/logo-officiel.jpeg";
 const whatsappNumber = "237699979857";
 const phone = "+237 699 97 98 57";
 
